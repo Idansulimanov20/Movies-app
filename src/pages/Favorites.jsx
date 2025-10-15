@@ -1,11 +1,11 @@
 import "../css/Favorites.css";
-import { useMovieContext } from "../context/MovieContext";
+import { useMovieContext } from "../context/useMovieContext.jsx";
 import MovieCard from "../components/MovieCard";
 
 function Favorites() {
   const { favorites } = useMovieContext();
 
-  if (favorites) {
+  if (favorites.levgth > 0) {
     return (
       <div className="favorites">
         <h2>Your Favorites</h2>
