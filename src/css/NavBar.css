@@ -1,97 +1,126 @@
+/* Navbar בסיסי עם עיצוב מודרני */
 .navbar {
-  background-color: #000000;
-  padding: 1.5rem 2rem; /* הגדלתי את ה-padding האנכי */
+  background: linear-gradient(90deg, #1f1f1f, #000000);
+  padding: 1.5rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   position: relative;
-  min-height: 80px; /* גובה מינימלי חדש */
+  border-bottom: 2px solid #6a2ad9;
+  min-height: 90px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
 }
 
-.navbar-brand {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.navbar-links {
+.navbar-section {
   display: flex;
-  gap: 2rem;
+  flex-direction: row;
+  gap: 5px;
+}
+.navbar:hover {
+  background: linear-gradient(90deg, #2c2c2c, #0a0a0a);
 }
 
-.nav-link {
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-
-.nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
+/* לוגו וכותרת במרכז */
 .navbar-center {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .navbar-logo {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
-  filter: drop-shadow(0 0 8px #ff3b3b);
+  filter: drop-shadow(0 0 10px #ff3b3b);
+  transition: transform 0.3s ease;
+}
+
+.navbar-logo:hover {
+  transform: scale(1.1);
 }
 
 .navbar-title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.8rem;
+  font-weight: 700;
   color: #ff3b3b;
-  text-shadow: 0 0 6px rgba(255, 59, 59, 0.6);
-  letter-spacing: 1px;
+  text-shadow: 0 0 8px rgba(255, 59, 59, 0.7);
+  letter-spacing: 1.5px;
+  transition: all 0.3s ease;
 }
 
+.navbar-title:hover {
+  color: #ff6b6b;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+}
+
+/* קישורים */
+.navbar-links {
+  display: flex;
+  gap: 1.2rem; /* מרווח בין כפתורים */
+}
+
+.nav-link,
+.login-btn {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px; /* מרווח קטן בין אייקון וטקסט */
+}
+
+.nav-link:hover,
+.login-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(106, 42, 217, 0.3);
+}
+
+.nav-link.active,
+.login-btn.active {
+  background-color: rgba(106, 42, 217, 0.9); /* צבע רקע של כפתור הלוגין */
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(106, 42, 217, 0.5);
+  transition: all 0.3s ease;
+}
+
+/* רספונסיביות */
 @media (max-width: 768px) {
   .navbar {
-    padding: 1rem;
-  }
-
-  .navbar-brand {
-    font-size: 1.2rem;
+    padding: 1rem 1.2rem;
+    flex-direction: column;
+    min-height: 100px;
   }
 
   .navbar-links {
-    gap: 1rem;
-  }
-
-  .nav-link {
-    padding: 0.5rem;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .navbar-center {
-    flex-direction: column;
-    gap: 5px;
     position: static;
     transform: none;
+    flex-direction: column;
+    gap: 5px;
     text-align: center;
+    margin-bottom: 0.5rem;
   }
 
   .navbar-title {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
-}
-
-.login-btn {
-  background-color: #3e374a;
-  color: white;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  transition: 0.2s;
-}
-
-.login-btn:hover {
-  background-color: #ac1c1c;
 }
