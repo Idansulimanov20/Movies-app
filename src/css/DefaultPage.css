@@ -1,12 +1,11 @@
 .default-page {
   text-align: center;
-  margin-top: 30px; /* ה-div יישב קצת יותר גבוה */
   padding: 2rem;
   color: #fff;
   min-height: 85vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* הועלה מעט כלפי מעלה */
+  justify-content: flex-start;
   align-items: center;
   animation: fadeIn 1s ease-in-out;
 }

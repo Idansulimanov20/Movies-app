@@ -1,62 +1,93 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../css/Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // הודעת שגיאה
-  const [success, setSuccess] = useState(""); // הודעת הצלחה
-  const [loading, setLoading] = useState(false); // מצב טעינה
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
 
-    // בדיקה בסיסית של אימייל וסיסמה
-    if (!email.includes("@")) {
-      setError("Please enter a valid email.");
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address");
       return;
     }
+
     if (password.length < 6) {
       setError("Password must be at least 6 characters.");
       return;
     }
 
-    // סימולציה של התחברות
     setLoading(true);
+
     setTimeout(() => {
       setLoading(false);
       setSuccess("Logged in successfully (demo)");
-      console.log("Email:", email, "Password:", password);
+
       setEmail("");
       setPassword("");
+
+      navigate("/home");
     }, 1500);
   };
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2>Welcome Back!</h2>
+      <p className="login-subtitle">
+        Log in to your account to access all features and manage your
+        preferences.
+      </p>
+
       <form onSubmit={handleSubmit} className="login-form">
-        <label>Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-          required
-        />
+        <div className="input-group">
+          <label>Email</label>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+          />
+          {error && error.includes("email") && (
+            <p className="login-error">{error}</p>
+          )}
+        </div>
 
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
-          required
-        />
+        <div className="input-group">
+          <label>Password</label>
+          <div className="password-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              required
+            />
+            <span
+              className="show-password-btn"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
+          {error && error.includes("Password") && (
+            <p className="login-error">{error}</p>
+          )}
+        </div>
 
-        {error && <p className="login-error">{error}</p>}
         {success && <p className="login-success">{success}</p>}
 
         <button type="submit" className="login-btn-submit" disabled={loading}>

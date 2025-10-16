@@ -1,11 +1,12 @@
 .navbar {
   background-color: #000000;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem; /* הגדלתי את ה-padding האנכי */
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
+  min-height: 80px; /* גובה מינימלי חדש */
 }
 
 .navbar-brand {
