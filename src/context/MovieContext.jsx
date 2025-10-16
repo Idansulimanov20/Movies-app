@@ -5,13 +5,13 @@ const MovieContext = createContext();
 export const useMovieContext = () => useContext(MovieContext);
 
 export const MovieProvider = ({ children }) => {
-  const [favorites, setFavorites] = useState([]);
-
-  useEffect(() => {
+  // ✅ טוען את הנתונים כבר בשלב ה-useState (לא מאוחר מדי)
+  const [favorites, setFavorites] = useState(() => {
     const storedFavs = localStorage.getItem("favorites");
+    return storedFavs ? JSON.parse(storedFavs) : [];
+  });
 
-    if (storedFavs) setFavorites(JSON.parse(storedFavs));
-  }, []);
+  // אין צורך יותר ב-useEffect הראשון כי כבר טוענים בהתחלה
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -25,9 +25,8 @@ export const MovieProvider = ({ children }) => {
     setFavorites((prev) => prev.filter((movie) => movie.id !== movieId));
   };
 
-  const isFavorite = (movieId) => {
-    return favorites.some((movie) => movie.id === movieId);
-  };
+  const isFavorite = (movieId) =>
+    favorites.some((movie) => movie.id === movieId);
 
   const value = {
     favorites,
