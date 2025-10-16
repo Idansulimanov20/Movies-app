@@ -53,6 +53,7 @@
 }
 
 .get-started-btn:hover {
+  color: white;
   background: linear-gradient(135deg, #ff5555, #ff8585);
   box-shadow: 0 0 20px rgba(255, 59, 59, 0.7);
   transform: translateY(-4px);
