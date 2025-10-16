@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import MovieCard from "../components/MovieCard";
+import MoviesGrid from "../components/MoviesGrid";
 import "../css/Home.css";
 import { searchMovies, getPopularMovies } from "../services/api";
+
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const loadMovies = async () => {
       try {
@@ -21,6 +23,7 @@ function Home() {
     };
     loadMovies();
   }, []);
+
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
@@ -37,6 +40,14 @@ function Home() {
       setLoading(false);
     }
   };
+
+  // פילטר לפני שליחת ל-MoviesGrid
+  const filteredMovies = movies.filter(
+    (movie) =>
+      movie.title &&
+      movie.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="home">
       <form onSubmit={handleSearch} className="search-form">
@@ -51,20 +62,13 @@ function Home() {
           Search
         </button>
       </form>
+
       {error && <div className="error-message">{error}</div>}
+
       {loading ? (
-        <div className="laoding">Loading...</div>
+        <div className="loading">Loading...</div>
       ) : (
-        <div className="movies-grid">
-          {movies.map(
-            (movie) =>
-              movie.title
-                .toLowerCase()
-                .startsWith(searchQuery.toLowerCase()) && (
-                <MovieCard key={movie.id} movie={movie} />
-              )
-          )}
-        </div>
+        <MoviesGrid movies={filteredMovies} />
       )}
     </div>
   );
