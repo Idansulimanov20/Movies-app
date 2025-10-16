@@ -1,0 +1,110 @@
+.default-page {
+  text-align: center;
+  margin-top: 30px; /* ה-div יישב קצת יותר גבוה */
+  padding: 2rem;
+  color: #fff;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* הועלה מעט כלפי מעלה */
+  align-items: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-title {
+  font-size: 3rem;
+  color: #ff3b3b;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+  font-family: "Segoe UI", sans-serif;
+  text-transform: uppercase;
+}
+
+.welcome-text {
+  font-size: 1.25rem;
+  line-height: 1.9;
+  max-width: 720px;
+  color: #ccc;
+  margin-bottom: 3rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.get-started-btn {
+  background: linear-gradient(135deg, #ff3b3b, #ff7070);
+  color: #fff;
+  padding: 0.9rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 59, 59, 0.4);
+}
+
+.get-started-btn:hover {
+  background: linear-gradient(135deg, #ff5555, #ff8585);
+  box-shadow: 0 0 20px rgba(255, 59, 59, 0.7);
+  transform: translateY(-4px);
+}
+.get-started-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin: 2.5rem 0;
+  max-width: 900px;
+  width: 100%;
+}
+
+.feature-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(255, 59, 59, 0.4);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  color: #ff3b3b;
+  margin-bottom: 0.8rem;
+  filter: drop-shadow(0 0 6px rgba(255, 59, 59, 0.6));
+}
+
+.feature-item h3 {
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.feature-item p {
+  color: #ccc;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.final-line {
+  font-size: 1.2rem;
+  color: #ff7070;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 10px rgba(255, 59, 59, 0.5);
+}
