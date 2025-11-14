@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { MovieContext } from "./MovieContext";
 
-export const MovieProvider = ({ children }) => {
+export function MovieProvider({ children }) {
   const [favorites, setFavorites] = useState(() => {
     const storedFavs = localStorage.getItem("favorites");
     return storedFavs ? JSON.parse(storedFavs) : [];
@@ -32,4 +32,4 @@ export const MovieProvider = ({ children }) => {
   return (
     <MovieContext.Provider value={value}>{children}</MovieContext.Provider>
   );
-};
+}

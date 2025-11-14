@@ -66,7 +66,6 @@
   background: #333;
 }
 
-/* Password field */
 .password-wrapper {
   position: relative;
   display: flex;
@@ -82,7 +81,6 @@
   user-select: none;
 }
 
-/* Submit button */
 .login-btn-submit {
   background: linear-gradient(90deg, #6a2ad9, #9b59b6);
   color: white;
@@ -105,7 +103,6 @@
   cursor: not-allowed;
 }
 
-/* Error & success messages */
 .login-error,
 .login-success {
   font-size: 0.95rem;
@@ -156,7 +153,6 @@
   user-select: none;
 }
 
-/* אנימציית Fade In כללית */
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -168,7 +164,6 @@
   }
 }
 
-/* הוספת האנימציה על כל הקונטיינר */
 .login-container {
   max-width: 480px;
   width: 90%;
@@ -183,20 +178,20 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   transition: all 0.3s ease;
 
-  animation: fadeIn 0.8s ease forwards; /* הוספת האנימציה */
+  animation: fadeIn 0.8s ease forwards;
 }
 
 .input-group,
 .login-btn-submit {
   animation: fadeIn 0.8s ease forwards;
-  opacity: 0; /* מתחילים מ-0 */
-  animation-delay: 0.3s; /* דיליי קטן לשדה הראשון */
+  opacity: 0;
+  animation-delay: 0.3s;
 }
 
 .input-group:nth-child(2) {
-  animation-delay: 0.5s; /* דיליי לשדה השני */
+  animation-delay: 0.5s;
 }
 
 .login-btn-submit {
-  animation-delay: 0.7s; /* דיליי לכפתור */
+  animation-delay: 0.7s;
 }
