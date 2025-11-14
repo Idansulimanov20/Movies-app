@@ -41,7 +41,6 @@ function Home() {
     }
   };
 
-  // פילטר לפני שליחת ל-MoviesGrid
   const filteredMovies = movies.filter(
     (movie) =>
       movie.title &&

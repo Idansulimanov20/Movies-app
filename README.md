@@ -1,4 +1,4 @@
-# Movie Website - React + API
+# Movies App - React + API
 
 This is a feature-rich **Movie Website** built using **React** for the front-end framework. The project integrates with an external movie API to provide users with an immersive movie browsing experience.
 
@@ -8,11 +8,11 @@ This interactive website allows users to browse movies, search for specific titl
 
 ## Features
 
-* **External API Integration**: Connects to a movie API to fetch comprehensive movie data.
-* **Search Functionality**: Easily find movies by title with a responsive search feature.
-* **Favorites System**: Save and manage your favorite movies with just one click.
-* **React Hooks**: Utilizes useState, useEffect, and useContext for efficient state management.
-* **Responsive Design**: Works seamlessly across desktop and mobile devices.
+- **External API Integration**: Connects to a movie API to fetch comprehensive movie data.
+- **Search Functionality**: Easily find movies by title with a responsive search feature.
+- **Favorites System**: Save and manage your favorite movies with just one click.
+- **React Hooks**: Utilizes useState, useEffect, and useContext for efficient state management.
+- **Responsive Design**: Works seamlessly across desktop and mobile devices.
 
 ## Installation
 
@@ -21,7 +21,7 @@ To run this project locally, follow these steps:
 1. **Clone the repository**:
 
 ```
-git clone https://github.com/your-username/movie-website.git
+git clone https://github.com/your-username/movies-app.git
 ```
 
 2. **Navigate into the project directory**:
@@ -52,89 +52,10 @@ This will start the React development server. Open your browser and go to `http:
 
 ## Technologies Used
 
-* **React**: Frontend framework to build the interactive movie website.
-* **React Hooks**: useState, useEffect, and useContext for state management.
-* **External Movie API**: Provides access to a vast database of movies and related information.
-* **LocalStorage**: Persists user favorites across sessions.
-
-## How React Hooks are Used
-
-### useState
-
-```jsx
-// For managing movie data
-const [movies, setMovies] = useState([]);
-
-// For handling search
-const [searchQuery, setSearchQuery] = useState('');
-
-// For tracking loading states
-const [isLoading, setIsLoading] = useState(true);
-```
-
-### useEffect
-
-```jsx
-// Fetching movies from the API
-useEffect(() => {
-  const fetchMovies = async () => {
-    const data = await fetchTrendingMovies();
-    setMovies(data.results);
-    setIsLoading(false);
-  };
-  
-  fetchMovies();
-}, []);
-
-// Searching for movies when query changes
-useEffect(() => {
-  if (searchQuery) {
-    const searchMovies = async () => {
-      const results = await searchMoviesByTitle(searchQuery);
-      setSearchResults(results);
-    };
-    
-    searchMovies();
-  }
-}, [searchQuery]);
-```
-
-### useContext
-
-```jsx
-// Setting up the favorites context
-const FavoritesContext = createContext();
-
-export const FavoritesProvider = ({ children }) => {
-  const [favorites, setFavorites] = useState([]);
-  
-  // Functions to manage favorites
-  const addFavorite = (movie) => {...};
-  const removeFavorite = (id) => {...};
-  
-  return (
-    <FavoritesContext.Provider value={{ favorites, addFavorite, removeFavorite }}>
-      {children}
-    </FavoritesContext.Provider>
-  );
-};
-
-// Using the context in components
-const MovieCard = ({ movie }) => {
-  const { favorites, addFavorite, removeFavorite } = useContext(FavoritesContext);
-  
-  const isFavorite = favorites.some(fav => fav.id === movie.id);
-  
-  return (
-    <div className="movie-card">
-      <h3>{movie.title}</h3>
-      <button onClick={() => isFavorite ? removeFavorite(movie.id) : addFavorite(movie)}>
-        {isFavorite ? '❤️' : '🤍'}
-      </button>
-    </div>
-  );
-};
-```
+- **React**: Frontend framework to build the interactive movie website.
+- **React Hooks**: useState, useEffect, and useContext for state management.
+- **External Movie API**: Provides access to a vast database of movies and related information.
+- **LocalStorage**: Persists user favorites across sessions.
 
 ## How to Use
 
@@ -145,9 +66,9 @@ const MovieCard = ({ movie }) => {
 
 ## Customization
 
-* You can modify the API endpoints to fetch different types of movie data.
-* The favorites system can be extended to include ratings or personal notes.
-* The UI can be customized to match your preferred style and branding.
+- You can modify the API endpoints to fetch different types of movie data.
+- The favorites system can be extended to include ratings or personal notes.
+- The UI can be customized to match your preferred style and branding.
 
 ## License
 
