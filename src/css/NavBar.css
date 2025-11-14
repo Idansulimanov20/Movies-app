@@ -18,11 +18,7 @@
   flex-direction: row;
   gap: 5px;
 }
-.navbar:hover {
-  background: linear-gradient(90deg, #2c2c2c, #0a0a0a);
-}
 
-/* לוגו וכותרת במרכז */
 .navbar-center {
   position: absolute;
   left: 50%;
@@ -58,10 +54,9 @@
   text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
 }
 
-/* קישורים */
 .navbar-links {
   display: flex;
-  gap: 1.2rem; /* מרווח בין כפתורים */
+  gap: 1.2rem;
 }
 
 .nav-link,
@@ -77,7 +72,7 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 4px; /* מרווח קטן בין אייקון וטקסט */
+  gap: 4px;
 }
 
 .nav-link:hover,
@@ -89,7 +84,7 @@
 
 .nav-link.active,
 .login-btn.active {
-  background-color: rgba(106, 42, 217, 0.9); /* צבע רקע של כפתור הלוגין */
+  background-color: rgba(106, 42, 217, 0.9);
   color: white;
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(106, 42, 217, 0.5);
