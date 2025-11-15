@@ -7,7 +7,7 @@ function NavBar() {
     <nav className="navbar">
       <div className="navbar-section">
         <NavLink to="/" className="nav-link">
-          Movie App 🎥
+          About Us 🎥
         </NavLink>
       </div>
 

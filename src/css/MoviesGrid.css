@@ -1,11 +1,11 @@
 .movies-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+  justify-content: center;
   gap: 1.5rem;
   padding: 1rem;
-  max-width: 100%;
-  box-sizing: border-box;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
