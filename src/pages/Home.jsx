@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MoviesGrid from "../components/MoviesGrid";
 import "../css/Home.css";
 import { searchMovies, getPopularMovies } from "../services/api";
+import SearchBar from "../components/SearchBar";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,8 +25,8 @@ function Home() {
     loadMovies();
   }, []);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
+  const handleSearch = async (event) => {
+    event.preventDefault();
     if (!searchQuery.trim()) return;
     if (loading) return;
     setLoading(true);
@@ -49,18 +50,12 @@ function Home() {
 
   return (
     <div className="home">
-      <form onSubmit={handleSearch} className="search-form">
-        <input
-          value={searchQuery}
-          type="text"
-          placeholder="Search for a movie"
-          className="search-input"
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button type="submit" className="search-button">
-          Search
-        </button>
-      </form>
+      <SearchBar
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        handleSearch={handleSearch}
+        loading={loading}
+      />
 
       {error && <div className="error-message">{error}</div>}
 
