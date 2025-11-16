@@ -1,17 +1,33 @@
-.filter-input {
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  display: block;
-  padding: 0.85rem 1rem;
-  border-radius: 8px;
-  background: #1f1f1f;
-  border: 1px solid #3b3b3b;
-  color: #e5e5e5;
-  font-size: 1rem;
+.filter-bar {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
 }
 
-.filter-input:focus {
+.filter-input,
+.filter-select {
+  padding: 12px 16px;
+  background-color: #2c2f33;
+  border: 1px solid #444;
+  color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 100%;
+  transition: 0.2s;
+}
+
+.filter-input:focus,
+.filter-select:focus {
   outline: none;
-  border-color: #5a75ff;
-  box-shadow: 0 0 5px rgba(90, 117, 255, 0.4);
+  border-color: #6c5ce7;
+  background-color: #222;
+}
+
+.filter-select {
+  width: 180px;
+  cursor: pointer;
 }

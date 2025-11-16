@@ -1,4 +1,4 @@
-import "../css/SearchBar.css";
+import "../css/ControlsBar.css";
 
 function SearchBar({ searchQuery, setSearchQuery, handleSearch, loading }) {
   const isDisabled = searchQuery.trim() === "" || loading;

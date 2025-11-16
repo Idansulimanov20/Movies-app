@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import MoviesGrid from "../components/MoviesGrid";
-import SearchBar from "../components/SearchBar";
-import FilterBar from "../components/FilterBar";
+import ControlsBar from "../components/ControlsBar";
 import Loader from "../components/Loader";
 
 import "../css/Home.css";
@@ -10,6 +9,7 @@ import { searchMovies, getPopularMovies } from "../services/api";
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterText, setFilterText] = useState("");
+  const [yearFilter, setYearFilter] = useState("");
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,6 +39,7 @@ function Home() {
       const results = await searchMovies(searchQuery);
       setMovies(results);
       setFilterText("");
+      setYearFilter("");
       setError(null);
     } catch (err) {
       console.error(err);
@@ -48,20 +49,30 @@ function Home() {
     }
   };
 
-  const filteredMovies = movies.filter((movie) =>
-    movie.title?.toLowerCase().includes(filterText.toLowerCase())
-  );
+  const filteredMovies = movies.filter((movie) => {
+    const matchesTitle =
+      movie.title &&
+      movie.title.toLowerCase().includes(filterText.toLowerCase());
+
+    const matchesYear =
+      !yearFilter ||
+      (movie.release_date && movie.release_date.startsWith(yearFilter));
+
+    return matchesTitle && matchesYear;
+  });
 
   return (
     <div className="home">
-      <SearchBar
+      <ControlsBar
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         handleSearch={handleSearch}
         loading={loading}
+        filterText={filterText}
+        setFilterText={setFilterText}
+        yearFilter={yearFilter}
+        setYearFilter={setYearFilter}
       />
-
-      <FilterBar filterText={filterText} setFilterText={setFilterText} />
 
       {error && <div className="error-message">{error}</div>}
 
