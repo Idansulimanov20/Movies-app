@@ -1,4 +1,7 @@
+import "../css/Home.css";
+
 function SearchBar({ searchQuery, setSearchQuery, handleSearch, loading }) {
+  const isDisabled = searchQuery.trim() === "" || loading;
   return (
     <form onSubmit={handleSearch} className="search-form">
       <input
@@ -6,10 +9,10 @@ function SearchBar({ searchQuery, setSearchQuery, handleSearch, loading }) {
         type="text"
         placeholder="Search for a movie"
         className="search-input"
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={(event) => setSearchQuery(event.target.value)}
       />
 
-      <button type="submit" className="search-button" disabled={loading}>
+      <button type="submit" className="search-button" disabled={isDisabled}>
         {loading ? "Searching..." : "Search"}
       </button>
     </form>

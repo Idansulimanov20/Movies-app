@@ -6,6 +6,7 @@ import SearchBar from "../components/SearchBar";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterText, setFilterText] = useState("");
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -34,6 +35,7 @@ function Home() {
       const searchResults = await searchMovies(searchQuery);
       setMovies(searchResults);
       setError(null);
+      setFilterText("");
     } catch (err) {
       console.log(err);
       setError("Error fetching data. Try again later.");
@@ -45,7 +47,7 @@ function Home() {
   const filteredMovies = movies.filter(
     (movie) =>
       movie.title &&
-      movie.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      movie.title.toLowerCase().startsWith(filterText.toLowerCase())
   );
 
   return (
@@ -57,10 +59,20 @@ function Home() {
         loading={loading}
       />
 
+      <input
+        type="text"
+        className="filter-input"
+        placeholder="Filter results..."
+        value={filterText}
+        onChange={(e) => setFilterText(e.target.value)}
+      />
+
       {error && <div className="error-message">{error}</div>}
 
       {loading ? (
-        <div className="loading">Loading...</div>
+        <div className="movies-loader-container">
+          <div className="movies-loader"></div>
+        </div>
       ) : (
         <MoviesGrid movies={filteredMovies} />
       )}
