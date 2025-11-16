@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import MoviesGrid from "../components/MoviesGrid";
+import SearchBar from "../components/SearchBar";
+import FilterBar from "../components/FilterBar";
+import Loader from "../components/Loader";
+
 import "../css/Home.css";
 import { searchMovies, getPopularMovies } from "../services/api";
-import SearchBar from "../components/SearchBar";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,7 +20,7 @@ function Home() {
         const moviesData = await getPopularMovies();
         setMovies(moviesData);
       } catch (err) {
-        console.log(err);
+        console.error(err);
         setError("Error fetching data. Try again later.");
       } finally {
         setLoading(false);
@@ -30,24 +33,23 @@ function Home() {
     event.preventDefault();
     if (!searchQuery.trim()) return;
     if (loading) return;
+
     setLoading(true);
     try {
-      const searchResults = await searchMovies(searchQuery);
-      setMovies(searchResults);
-      setError(null);
+      const results = await searchMovies(searchQuery);
+      setMovies(results);
       setFilterText("");
+      setError(null);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setError("Error fetching data. Try again later.");
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredMovies = movies.filter(
-    (movie) =>
-      movie.title &&
-      movie.title.toLowerCase().startsWith(filterText.toLowerCase())
+  const filteredMovies = movies.filter((movie) =>
+    movie.title?.toLowerCase().includes(filterText.toLowerCase())
   );
 
   return (
@@ -59,23 +61,11 @@ function Home() {
         loading={loading}
       />
 
-      <input
-        type="text"
-        className="filter-input"
-        placeholder="Filter results..."
-        value={filterText}
-        onChange={(e) => setFilterText(e.target.value)}
-      />
+      <FilterBar filterText={filterText} setFilterText={setFilterText} />
 
       {error && <div className="error-message">{error}</div>}
 
-      {loading ? (
-        <div className="movies-loader-container">
-          <div className="movies-loader"></div>
-        </div>
-      ) : (
-        <MoviesGrid movies={filteredMovies} />
-      )}
+      {loading ? <Loader /> : <MoviesGrid movies={filteredMovies} />}
     </div>
   );
 }

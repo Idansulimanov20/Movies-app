@@ -1,7 +1,8 @@
-import "../css/Home.css";
+import "../css/SearchBar.css";
 
 function SearchBar({ searchQuery, setSearchQuery, handleSearch, loading }) {
   const isDisabled = searchQuery.trim() === "" || loading;
+
   return (
     <form onSubmit={handleSearch} className="search-form">
       <input
@@ -13,7 +14,7 @@ function SearchBar({ searchQuery, setSearchQuery, handleSearch, loading }) {
       />
 
       <button type="submit" className="search-button" disabled={isDisabled}>
-        {loading ? "Searching..." : "Search"}
+        {loading ? "..." : "Search"}
       </button>
     </form>
   );

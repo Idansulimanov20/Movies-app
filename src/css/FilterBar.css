@@ -1,0 +1,17 @@
+.filter-input {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  display: block;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  background: #1f1f1f;
+  border: 1px solid #3b3b3b;
+  color: #e5e5e5;
+  font-size: 1rem;
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: #5a75ff;
+  box-shadow: 0 0 5px rgba(90, 117, 255, 0.4);
+}

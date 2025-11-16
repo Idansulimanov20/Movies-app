@@ -1,0 +1,22 @@
+.movies-loader-container {
+  width: 100%;
+  min-height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.movies-loader {
+  width: 150px;
+  height: 150px;
+  border: 12px solid #5a75ff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
