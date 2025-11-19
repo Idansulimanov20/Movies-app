@@ -1,6 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
+    <script>
+      const reroute = sessionStorage.getItem("reroute");
+      if (reroute) {
+        sessionStorage.removeItem("reroute");
+        history.replaceState(null, "", reroute);
+      }
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/Movies-app/icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
