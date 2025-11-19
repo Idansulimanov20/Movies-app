@@ -1,15 +1,15 @@
-import "../css/ControlsBar.css";
+import "../css/FilterBar.css";
+
 function FilterBar({ filterText, setFilterText, yearFilter, setYearFilter }) {
   return (
-    <div className="filter-bar">
+    <div className="filter-row">
       <input
         type="text"
         className="filter-input"
-        placeholder="Filter by title..."
+        placeholder="Filter search results by title..."
         value={filterText}
         onChange={(event) => setFilterText(event.target.value)}
       />
-
       <select
         className="filter-select"
         value={yearFilter}

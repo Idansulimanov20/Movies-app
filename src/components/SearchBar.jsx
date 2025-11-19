@@ -1,22 +1,25 @@
-import "../css/ControlsBar.css";
+import "../css/SearchBar.css";
 
 function SearchBar({ searchQuery, setSearchQuery, handleSearch, loading }) {
   const isDisabled = searchQuery.trim() === "" || loading;
 
   return (
-    <form onSubmit={handleSearch} className="search-form">
+    <div className="search-row">
       <input
-        value={searchQuery}
         type="text"
-        placeholder="Search for a movie"
         className="search-input"
+        placeholder="Search for a movie"
+        value={searchQuery}
         onChange={(event) => setSearchQuery(event.target.value)}
       />
-
-      <button type="submit" className="search-button" disabled={isDisabled}>
+      <button
+        className="search-button"
+        onClick={handleSearch}
+        disabled={isDisabled}
+      >
         {loading ? "..." : "Search"}
       </button>
-    </form>
+    </div>
   );
 }
 
