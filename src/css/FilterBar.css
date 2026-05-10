@@ -5,44 +5,123 @@
 }
 
 .filter-input,
-.filter-select {
-  background-color: #17191d;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.filter-year-button {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent),
+    #17191d;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
-  color: white;
+  color: #f5f7fb;
   font-size: 0.96rem;
   height: 46px;
   outline: 0;
-  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .filter-input {
   flex: 1 1 auto;
-  padding: 0 14px;
   min-width: 0;
+  padding: 0 14px;
 }
 
 .filter-input::placeholder {
   color: #858c97;
 }
 
-.filter-input:focus {
+.filter-input:focus,
+.filter-year-button:focus-visible,
+.filter-year-picker.open .filter-year-button {
   background-color: #1d2026;
   border-color: rgba(231, 63, 70, 0.72);
   box-shadow: 0 0 0 3px rgba(231, 63, 70, 0.12);
 }
 
-.filter-select {
-  flex: 0 0 140px;
+.filter-year-picker {
+  flex: 0 0 148px;
+  position: relative;
+}
+
+.filter-year-button {
+  align-items: center;
   cursor: pointer;
-  padding: 0 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 0 0.7rem;
   text-align: center;
+  width: 100%;
 }
 
-.filter-select:focus {
-  background-color: #1d2026;
-  border-color: rgba(231, 63, 70, 0.72);
-  box-shadow: 0 0 0 3px rgba(231, 63, 70, 0.12);
+.filter-year-button span {
+  flex: 0 1 auto;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.filter-year-icon {
+  color: #e73f46;
+  flex: 0 0 auto;
+  font-size: 0.88rem;
+}
+
+.filter-year-chevron {
+  color: #9ca3af;
+  flex: 0 0 auto;
+  font-size: 0.7rem;
+  transition: transform 0.18s ease;
+}
+
+.filter-year-chevron.open {
+  transform: rotate(180deg);
+}
+
+.filter-year-menu {
+  background: #15171b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.34);
+  display: grid;
+  gap: 0.2rem;
+  left: 0;
+  margin-top: 0.45rem;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 0.35rem;
+  position: absolute;
+  right: 0;
+  z-index: 30;
+}
+
+.filter-year-option {
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: #d9dde4;
+  cursor: pointer;
+  font-size: 0.94rem;
+  font-weight: 700;
+  padding: 0.62rem 0.7rem;
+  text-align: center;
+  transition:
+    background-color 0.16s ease,
+    color 0.16s ease;
+}
+
+.filter-year-option:hover,
+.filter-year-option:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  outline: 0;
+}
+
+.filter-year-option.active {
+  background: rgba(231, 63, 70, 0.18);
+  color: #fff;
 }
 
 @media (max-width: 639px) {
@@ -50,7 +129,8 @@
     flex-direction: column;
   }
 
-  .filter-select {
+  .filter-year-picker {
     flex-basis: auto;
+    width: 100%;
   }
 }

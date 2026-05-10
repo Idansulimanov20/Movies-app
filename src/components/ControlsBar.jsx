@@ -6,6 +6,7 @@ function ControlsBar({
   searchQuery,
   setSearchQuery,
   handleSearch,
+  handleClearSearch,
   loading,
   filterText,
   setFilterText,
@@ -18,6 +19,7 @@ function ControlsBar({
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         handleSearch={handleSearch}
+        handleClearSearch={handleClearSearch}
         loading={loading}
       />
       <FilterBar

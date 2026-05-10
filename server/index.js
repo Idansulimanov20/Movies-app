@@ -30,7 +30,9 @@ const mimeTypes = {
 };
 
 if (!process.env.AUTH_TOKEN_SECRET) {
-  console.warn("AUTH_TOKEN_SECRET is not set. Using an unsafe development secret.");
+  console.warn(
+    "AUTH_TOKEN_SECRET is not set. Using an unsafe development secret.",
+  );
 }
 
 async function loadLocalEnv() {
@@ -79,7 +81,10 @@ function base64Url(input) {
 }
 
 function sign(value) {
-  return crypto.createHmac("sha256", TOKEN_SECRET).update(value).digest("base64url");
+  return crypto
+    .createHmac("sha256", TOKEN_SECRET)
+    .update(value)
+    .digest("base64url");
 }
 
 function createToken(user) {
@@ -89,7 +94,7 @@ function createToken(user) {
       email: user.email,
       username: user.username,
       exp: Math.floor(Date.now() / 1000) + TOKEN_TTL_SECONDS,
-    })
+    }),
   );
 
   return `${payload}.${sign(payload)}`;
@@ -107,14 +112,14 @@ function parseCookies(req) {
 function setAuthCookie(res, token) {
   res.setHeader(
     "Set-Cookie",
-    `${AUTH_COOKIE_NAME}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${TOKEN_TTL_SECONDS}`
+    `${AUTH_COOKIE_NAME}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${TOKEN_TTL_SECONDS}`,
   );
 }
 
 function clearAuthCookie(res) {
   res.setHeader(
     "Set-Cookie",
-    `${AUTH_COOKIE_NAME}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`
+    `${AUTH_COOKIE_NAME}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0`,
   );
 }
 
@@ -128,13 +133,15 @@ function verifyToken(token) {
   if (
     !crypto.timingSafeEqual(
       Buffer.from(signature),
-      Buffer.from(expectedSignature)
+      Buffer.from(expectedSignature),
     )
   ) {
     return null;
   }
 
-  const decoded = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
+  const decoded = JSON.parse(
+    Buffer.from(payload, "base64url").toString("utf8"),
+  );
   if (!decoded.exp || decoded.exp < Math.floor(Date.now() / 1000)) return null;
 
   return decoded;
@@ -162,7 +169,10 @@ function setCorsHeaders(req, res) {
   }
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, DELETE, OPTIONS",
+  );
 }
 
 function sendJson(res, statusCode, data) {
@@ -239,13 +249,13 @@ function validateCredentials(email, username, password) {
 
 async function handleAuth(req, res, pathname) {
   if (req.method === "POST" && pathname === "/api/auth/signup") {
-    const { email, password, name, username } = await readBody(req);
+    const { email, password, username } = await readBody(req);
     const normalizedEmail = email?.trim().toLowerCase();
-    const normalizedUsername = normalizeUsername(username || name);
+    const normalizedUsername = normalizeUsername(username);
     const validationError = validateCredentials(
       normalizedEmail,
       normalizedUsername,
-      password
+      password,
     );
     if (validationError) return sendError(res, 400, validationError);
 
@@ -261,7 +271,7 @@ async function handleAuth(req, res, pathname) {
       id: crypto.randomUUID(),
       email: normalizedEmail,
       username: normalizedUsername,
-      name: name?.trim() || normalizedUsername,
+      name: normalizedUsername,
       avatar: "",
       passwordHash: hashPassword(password),
       favorites: [],
@@ -290,13 +300,14 @@ async function handleAuth(req, res, pathname) {
     const user = users.find(
       (candidate) =>
         candidate.username === normalizedUsername ||
-        (!candidate.username && candidate.email === normalizedUsername)
+        (!candidate.username && candidate.email === normalizedUsername),
     );
     if (!user || !isPasswordValid(password, user.passwordHash)) {
       return sendError(res, 401, "Username or password is incorrect.");
     }
 
-    if (!user.username) user.username = normalizeUsername(user.name || user.email);
+    if (!user.username)
+      user.username = normalizeUsername(user.name || user.email);
     await writeUsers(users);
     setAuthCookie(res, createToken(user));
 
@@ -317,18 +328,21 @@ async function handleAuth(req, res, pathname) {
     const userIndex = users.findIndex((user) => user.email === normalizedEmail);
 
     if (userIndex !== -1) {
-      users[userIndex].passwordResetToken = crypto.randomBytes(24).toString("hex");
+      users[userIndex].passwordResetToken = crypto
+        .randomBytes(24)
+        .toString("hex");
       users[userIndex].passwordResetExpiresAt = new Date(
-        Date.now() + 1000 * 60 * 30
+        Date.now() + 1000 * 60 * 30,
       ).toISOString();
       await writeUsers(users);
       console.log(
-        `Password recovery requested for ${normalizedEmail}. Reset token: ${users[userIndex].passwordResetToken}`
+        `Password recovery requested for ${normalizedEmail}. Reset token: ${users[userIndex].passwordResetToken}`,
       );
     }
 
     return sendJson(res, 200, {
-      message: "If an account exists for this email, recovery instructions were sent.",
+      message:
+        "If an account exists for this email, recovery instructions were sent.",
     });
   }
 
@@ -346,9 +360,11 @@ async function handleAuth(req, res, pathname) {
     const { name, avatar } = await readBody(req);
     const users = await readUsers();
     const userIndex = users.findIndex((user) => user.id === currentUser.id);
-    if (userIndex === -1) return sendError(res, 401, "Authentication is required.");
+    if (userIndex === -1)
+      return sendError(res, 401, "Authentication is required.");
 
-    if (name !== undefined) users[userIndex].name = name.trim() || users[userIndex].name;
+    if (name !== undefined)
+      users[userIndex].name = name.trim() || users[userIndex].name;
     if (avatar !== undefined) {
       if (avatar && !avatar.startsWith("data:image/")) {
         return sendError(res, 400, "Profile picture must be an image.");
@@ -376,7 +392,9 @@ async function fetchTmdb(pathname, searchParams) {
   const params = new URLSearchParams(searchParams);
   params.set("api_key", TMDB_API_KEY);
 
-  const response = await fetch(`https://api.themoviedb.org/3${pathname}?${params}`);
+  const response = await fetch(
+    `https://api.themoviedb.org/3${pathname}?${params}`,
+  );
   const data = await response.json();
 
   if (!response.ok) {
@@ -411,7 +429,8 @@ async function handleFavorites(req, res, pathname) {
 
   const users = await readUsers();
   const userIndex = users.findIndex((candidate) => candidate.id === user.id);
-  if (userIndex === -1) return sendError(res, 401, "Authentication is required.");
+  if (userIndex === -1)
+    return sendError(res, 401, "Authentication is required.");
 
   if (req.method === "GET" && pathname === "/api/favorites") {
     return sendJson(res, 200, { favorites: users[userIndex].favorites || [] });
@@ -436,7 +455,7 @@ async function handleFavorites(req, res, pathname) {
   if (req.method === "DELETE" && favoriteMatch) {
     const movieId = Number(favoriteMatch[1]);
     users[userIndex].favorites = (users[userIndex].favorites || []).filter(
-      (movie) => movie.id !== movieId
+      (movie) => movie.id !== movieId,
     );
     await writeUsers(users);
 
@@ -460,7 +479,8 @@ async function serveStatic(req, res, pathname) {
 
   try {
     const file = await fs.readFile(filePath);
-    const contentType = mimeTypes[path.extname(filePath)] || "application/octet-stream";
+    const contentType =
+      mimeTypes[path.extname(filePath)] || "application/octet-stream";
     res.writeHead(200, { "Content-Type": contentType });
     res.end(file);
   } catch {

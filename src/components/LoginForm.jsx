@@ -6,7 +6,6 @@ import { useAuth } from "../context/useAuth";
 
 function LoginForm() {
   const [mode, setMode] = useState("signin");
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,9 +21,24 @@ function LoginForm() {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isSignUp = mode === "signup";
   const isRecover = mode === "recover";
+  const authCopy = {
+    signin: {
+      title: "Welcome Back!",
+      subtitle: location.state?.authRequired
+        ? "Please sign in before opening your favorites."
+        : "Sign in to save movies and manage your favorites.",
+    },
+    signup: {
+      title: "Create Account",
+      subtitle: "Create your profile with a username, then start building your movie list.",
+    },
+    recover: {
+      title: "Recover Password",
+      subtitle: "Enter your email and we will send recovery instructions.",
+    },
+  };
 
   const resetAuthState = () => {
-    setName("");
     setEmail("");
     setUsername("");
     setPassword("");
@@ -66,7 +80,7 @@ function LoginForm() {
         const message = await requestPasswordRecovery(email);
         setSuccess(message);
       } else if (isSignUp) {
-        await register({ name, email, username, password });
+        await register({ email, username, password });
         setSuccess("Account created successfully.");
         navigate("/home");
       } else {
@@ -75,7 +89,6 @@ function LoginForm() {
         navigate("/home");
       }
 
-      setName("");
       setEmail("");
       setUsername("");
       setPassword("");
@@ -88,20 +101,8 @@ function LoginForm() {
 
   return (
     <>
-      <h2>
-        {isRecover
-          ? "Recover Password"
-          : isSignUp
-            ? "Create Account"
-            : "Welcome Back!"}
-      </h2>
-      <p className="login-subtitle">
-        {isRecover
-          ? "Enter your email and we will send recovery instructions."
-          : location.state?.authRequired
-          ? "Please sign in before opening your favorites."
-          : "Sign in to save movies and manage your favorites."}
-      </p>
+      <h2>{authCopy[mode].title}</h2>
+      <p className="login-subtitle">{authCopy[mode].subtitle}</p>
 
       <div className="auth-mode-toggle" aria-label="Authentication mode">
         <button
@@ -121,18 +122,6 @@ function LoginForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="login-form">
-        {isSignUp && (
-          <div className="input-group">
-            <label>Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              placeholder="Enter your name"
-            />
-          </div>
-        )}
-
         {(isSignUp || isRecover) && (
           <div className="input-group">
             <label>Email</label>
