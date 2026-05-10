@@ -1,14 +1,17 @@
 import "../css/MovieCard.css";
+import { useAuth } from "../context/useAuth";
 import { useMovieContext } from "../context/useMovieContext";
 
 function MovieCard({ movie }) {
   const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
+  const { isAuthenticated } = useAuth();
   const favorite = isFavorite(movie.id);
 
-  function onFavoriteClick(e) {
-    e.preventDefault();
-    if (favorite) removeFromFavorites(movie.id);
-    else addToFavorites(movie);
+  async function onFavoriteClick(event) {
+    event.preventDefault();
+
+    if (favorite) await removeFromFavorites(movie.id);
+    else await addToFavorites(movie);
   }
 
   const imageUrl = movie.poster_path
@@ -27,12 +30,15 @@ function MovieCard({ movie }) {
         )}
 
         <div className="movie-overlay">
-          <button
-            className={`favorite-btn ${favorite ? "active" : ""}`}
-            onClick={onFavoriteClick}
-          >
-            ♥
-          </button>
+          {isAuthenticated && (
+            <button
+              className={`favorite-btn ${favorite ? "active" : ""}`}
+              onClick={onFavoriteClick}
+              aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+            >
+              <span aria-hidden="true">&hearts;</span>
+            </button>
+          )}
         </div>
       </div>
 

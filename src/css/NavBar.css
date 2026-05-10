@@ -15,6 +15,7 @@
 .navbar-section {
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 5px;
 }
 
@@ -60,6 +61,7 @@
 
 .nav-link,
 .login-btn {
+  border: 0;
   font-size: 1rem;
   font-weight: 600;
   padding: 0.5rem 1rem;
@@ -90,6 +92,71 @@
   transition: all 0.3s ease;
 }
 
+.nav-account {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 0.3rem;
+}
+
+.nav-profile-button,
+.logout-button {
+  align-items: center;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 700;
+}
+
+.nav-profile-button {
+  background: transparent;
+  color: #fff;
+  gap: 0.55rem;
+  padding: 0.25rem 0.65rem 0.25rem 0.25rem;
+}
+
+.nav-avatar {
+  align-items: center;
+  background: #e73f46;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.9rem;
+  font-weight: 800;
+  height: 34px;
+  justify-content: center;
+  overflow: hidden;
+  width: 34px;
+}
+
+.nav-avatar img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.nav-account-text {
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logout-button {
+  background: #262626;
+  border-radius: 999px;
+  color: #fff;
+  padding: 0.55rem 0.85rem;
+}
+
+.logout-button:hover,
+.nav-profile-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 1rem 1.2rem;
@@ -115,5 +182,16 @@
 
   .navbar-title {
     font-size: 1.4rem;
+  }
+
+  .navbar-section {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-account {
+    border-radius: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }

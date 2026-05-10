@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../css/Login.css";
+import { useAuth } from "../context/useAuth";
 
 function LoginForm() {
+  const [mode, setMode] = useState("signin");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -12,86 +16,196 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login, register, requestPasswordRecovery } = useAuth();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isSignUp = mode === "signup";
+  const isRecover = mode === "recover";
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
     setSuccess("");
 
-    if (!emailRegex.test(email)) {
+    if ((isSignUp || isRecover) && !emailRegex.test(email)) {
       setError("Please enter a valid email address");
       return;
     }
 
-    if (password.length < 6) {
+    if (!isRecover && !/^[a-zA-Z0-9_]{3,24}$/.test(username)) {
+      setError("Username must be 3-24 characters.");
+      return;
+    }
+
+    if (!isRecover && password.length < 6) {
       setError("Password must be at least 6 characters.");
       return;
     }
 
     setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
-      setSuccess("Logged in successfully (demo)");
+    try {
+      if (isRecover) {
+        const message = await requestPasswordRecovery(email);
+        setSuccess(message);
+      } else if (isSignUp) {
+        await register({ name, email, username, password });
+        setSuccess("Account created successfully.");
+        navigate("/home");
+      } else {
+        await login({ username, password });
+        setSuccess("Logged in successfully.");
+        navigate("/home");
+      }
 
+      setName("");
       setEmail("");
+      setUsername("");
       setPassword("");
-
-      navigate("/home");
-    }, 1500);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
-      <h2>Welcome Back!</h2>
+      <h2>
+        {isRecover
+          ? "Recover Password"
+          : isSignUp
+            ? "Create Account"
+            : "Welcome Back!"}
+      </h2>
       <p className="login-subtitle">
-        Log in to your account to access all features and manage your
-        preferences.
+        {isRecover
+          ? "Enter your email and we will send recovery instructions."
+          : location.state?.authRequired
+          ? "Please sign in before opening your favorites."
+          : "Sign in to save movies and manage your favorites."}
       </p>
 
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="input-group">
-          <label>Email</label>
-          <input
-            type="text"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="Enter your email"
-            required
-          />
-          {error && error.includes("email") && (
-            <p className="login-error">{error}</p>
-          )}
-        </div>
+      <div className="auth-mode-toggle" aria-label="Authentication mode">
+        <button
+          type="button"
+          className={!isSignUp && !isRecover ? "active" : ""}
+          onClick={() => {
+            setMode("signin");
+            setError("");
+            setSuccess("");
+          }}
+        >
+          Sign in
+        </button>
+        <button
+          type="button"
+          className={isSignUp ? "active" : ""}
+          onClick={() => {
+            setMode("signup");
+            setError("");
+            setSuccess("");
+          }}
+        >
+          Sign up
+        </button>
+      </div>
 
-        <div className="input-group">
-          <label>Password</label>
-          <div className="password-wrapper">
+      <form onSubmit={handleSubmit} className="login-form">
+        {isSignUp && (
+          <div className="input-group">
+            <label>Name</label>
             <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Enter your password"
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Enter your name"
+            />
+          </div>
+        )}
+
+        {(isSignUp || isRecover) && (
+          <div className="input-group">
+            <label>Email</label>
+            <input
+              type="text"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="Enter your email"
               required
             />
-            <span
-              className="show-password-btn"
-              onClick={() => setShowPassword((prev) => !prev)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+            {error && error.includes("email") && (
+              <p className="login-error">{error}</p>
+            )}
           </div>
-          {error && error.includes("Password") && (
-            <p className="login-error">{error}</p>
-          )}
-        </div>
+        )}
+
+        {!isRecover && (
+          <div className="input-group">
+            <label>Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+        )}
+
+        {!isRecover && (
+          <div className="input-group">
+            <label>Password</label>
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Enter your password"
+                required
+              />
+              <button
+                type="button"
+                className="show-password-btn"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+            {error && error.includes("Password") && (
+              <p className="login-error">{error}</p>
+            )}
+          </div>
+        )}
+
+        {error && !error.includes("email") && !error.includes("Password") && (
+          <p className="login-error">{error}</p>
+        )}
 
         {success && <p className="login-success">{success}</p>}
 
         <button type="submit" className="login-btn-submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+          {loading
+            ? "Please wait..."
+            : isRecover
+              ? "Send recovery email"
+              : isSignUp
+                ? "Create account"
+                : "Login"}
+        </button>
+
+        <button
+          type="button"
+          className="forgot-password-btn"
+          onClick={() => {
+            setMode(isRecover ? "signin" : "recover");
+            setError("");
+            setSuccess("");
+          }}
+        >
+          {isRecover ? "Back to sign in" : "Forgot password?"}
         </button>
       </form>
     </>

@@ -1,22 +1,66 @@
 import { useState, useEffect } from "react";
 import { MovieContext } from "./MovieContext";
+import { useAuth } from "./useAuth";
+import { addFavorite, getFavorites, removeFavorite } from "../services/api";
 
 export function MovieProvider({ children }) {
-  const [favorites, setFavorites] = useState(() => {
-    const storedFavs = localStorage.getItem("favorites");
-    return storedFavs ? JSON.parse(storedFavs) : [];
-  });
+  const { isAuthenticated, loading: authLoading } = useAuth();
+  const [favorites, setFavorites] = useState([]);
+  const [favoritesLoading, setFavoritesLoading] = useState(false);
+  const [favoritesError, setFavoritesError] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
+    let ignore = false;
 
-  const addToFavorites = (movie) => {
-    setFavorites((prev) => [...prev, movie]);
+    async function loadFavorites() {
+      if (authLoading) return;
+
+      if (!isAuthenticated) {
+        setFavorites([]);
+        setFavoritesError("");
+        return;
+      }
+
+      setFavoritesLoading(true);
+      try {
+        const nextFavorites = await getFavorites();
+        if (!ignore) setFavorites(nextFavorites);
+      } catch (error) {
+        if (!ignore) setFavoritesError(error.message);
+      } finally {
+        if (!ignore) setFavoritesLoading(false);
+      }
+    }
+
+    loadFavorites();
+
+    return () => {
+      ignore = true;
+    };
+  }, [authLoading, isAuthenticated]);
+
+  const addToFavorites = async (movie) => {
+    if (!isAuthenticated) return;
+
+    try {
+      const nextFavorites = await addFavorite(movie);
+      setFavorites(nextFavorites);
+      setFavoritesError("");
+    } catch (error) {
+      setFavoritesError(error.message);
+    }
   };
 
-  const removeFromFavorites = (movieId) => {
-    setFavorites((prev) => prev.filter((movie) => movie.id !== movieId));
+  const removeFromFavorites = async (movieId) => {
+    if (!isAuthenticated) return;
+
+    try {
+      const nextFavorites = await removeFavorite(movieId);
+      setFavorites(nextFavorites);
+      setFavoritesError("");
+    } catch (error) {
+      setFavoritesError(error.message);
+    }
   };
 
   const isFavorite = (movieId) =>
@@ -24,6 +68,8 @@ export function MovieProvider({ children }) {
 
   const value = {
     favorites,
+    favoritesLoading,
+    favoritesError,
     addToFavorites,
     removeFromFavorites,
     isFavorite,
