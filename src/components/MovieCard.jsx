@@ -1,6 +1,7 @@
 import "../css/MovieCard.css";
 import { useAuth } from "../context/useAuth";
 import { useMovieContext } from "../context/useMovieContext";
+import logo from "../assets/icon.png";
 
 function MovieCard({ movie }) {
   const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
@@ -24,8 +25,10 @@ function MovieCard({ movie }) {
         {imageUrl ? (
           <img src={imageUrl} alt={movie.title} />
         ) : (
-          <div className="no-image">
-            <span>Image Not Available</span>
+          <div className="movie-poster-placeholder" aria-label="Movie poster not available">
+            <img src={logo} alt="" className="movie-placeholder-logo" />
+            <span className="movie-placeholder-title">Poster unavailable</span>
+            <span className="movie-placeholder-copy">Artwork has not been provided yet</span>
           </div>
         )}
 

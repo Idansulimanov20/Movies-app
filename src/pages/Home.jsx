@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import MoviesGrid from "../components/MoviesGrid";
 import ControlsBar from "../components/ControlsBar";
 import Loader from "../components/Loader";
@@ -14,20 +14,23 @@ function Home() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadMovies = async () => {
-      try {
-        const moviesData = await getPopularMovies();
-        setMovies(moviesData);
-      } catch (err) {
-        console.error(err);
-        setError("Error fetching data. Try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadMovies();
+  const loadDefaultMovies = useCallback(async () => {
+    setLoading(true);
+    try {
+      const moviesData = await getPopularMovies();
+      setMovies(moviesData);
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError("Error fetching data. Try again later.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadDefaultMovies();
+  }, [loadDefaultMovies]);
 
   const handleSearch = async (event) => {
     event.preventDefault();
@@ -49,6 +52,13 @@ function Home() {
     }
   };
 
+  const handleClearSearch = async () => {
+    setSearchQuery("");
+    setFilterText("");
+    setYearFilter("");
+    await loadDefaultMovies();
+  };
+
   const filteredMovies = movies.filter((movie) => {
     const matchesTitle =
       movie.title &&
@@ -67,6 +77,7 @@ function Home() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         handleSearch={handleSearch}
+        handleClearSearch={handleClearSearch}
         loading={loading}
         filterText={filterText}
         setFilterText={setFilterText}

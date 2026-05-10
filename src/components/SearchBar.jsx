@@ -1,8 +1,23 @@
 import "../css/SearchBar.css";
 import { FaSearch, FaTimes } from "react-icons/fa";
 
-function SearchBar({ searchQuery, setSearchQuery, handleSearch, loading }) {
+function SearchBar({
+  searchQuery,
+  setSearchQuery,
+  handleSearch,
+  handleClearSearch,
+  loading,
+}) {
   const isDisabled = searchQuery.trim() === "" || loading;
+
+  const clearSearch = () => {
+    if (handleClearSearch) {
+      handleClearSearch();
+      return;
+    }
+
+    setSearchQuery("");
+  };
 
   return (
     <form className="search-row" onSubmit={handleSearch} role="search">
@@ -20,7 +35,8 @@ function SearchBar({ searchQuery, setSearchQuery, handleSearch, loading }) {
           <button
             type="button"
             className="search-clear-button"
-            onClick={() => setSearchQuery("")}
+            onClick={clearSearch}
+            disabled={loading}
             aria-label="Clear search"
           >
             <FaTimes aria-hidden="true" />

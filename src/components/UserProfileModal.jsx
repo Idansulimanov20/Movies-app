@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaCamera } from "react-icons/fa";
+import { FaCamera, FaTimes } from "react-icons/fa";
 import { useAuth } from "../context/useAuth";
 import "../css/UserProfileModal.css";
 
@@ -73,9 +73,7 @@ function UserProfileModal({ open, onClose }) {
           onClick={onClose}
           aria-label="Close profile settings"
         >
-          <span className="profile-modal-close-symbol" aria-hidden="true">
-            ×
-          </span>
+          <FaTimes aria-hidden="true" />
         </button>
 
         <h2 id="profile-modal-title">Profile</h2>

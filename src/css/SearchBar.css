@@ -1,26 +1,39 @@
 .search-row {
   display: flex;
-  gap: 10px;
+  align-items: stretch;
+  gap: 12px;
   width: 100%;
 }
 
 .search-field {
   align-items: center;
-  background: #17191d;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent),
+    #15171b;
+  border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 8px;
   display: flex;
   flex: 1 1 auto;
   gap: 0.75rem;
   min-width: 0;
-  padding: 0 0.85rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  padding: 0 0.75rem 0 1rem;
+  position: relative;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .search-field:focus-within {
-  background: #1d2026;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent),
+    #1b1e24;
   border-color: rgba(231, 63, 70, 0.8);
-  box-shadow: 0 0 0 4px rgba(231, 63, 70, 0.16);
+  box-shadow:
+    0 0 0 4px rgba(231, 63, 70, 0.16),
+    0 14px 32px rgba(0, 0, 0, 0.28);
+  transform: translateY(-1px);
 }
 
 .search-icon {
@@ -35,7 +48,7 @@
   color: #e5e5e5;
   flex: 1 1 auto;
   font-size: 1rem;
-  height: 52px;
+  height: 56px;
   min-width: 0;
   outline: 0;
   padding: 0;
@@ -51,38 +64,48 @@
 
 .search-clear-button {
   align-items: center;
-  background: transparent;
-  border: 0;
-  color: #9ca3af;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #a8afb9;
   display: inline-flex;
   flex: 0 0 auto;
-  height: 32px;
+  height: 34px;
   justify-content: center;
   padding: 0;
-  width: 32px;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  width: 34px;
 }
 
 .search-clear-button:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: transparent;
+  background: rgba(231, 63, 70, 0.18);
+  border-color: rgba(231, 63, 70, 0.25);
   color: #fff;
+  transform: scale(1.03);
+}
+
+.search-clear-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
 }
 
 .search-button {
-  background: #e73f46;
+  background: linear-gradient(180deg, #ff535a 0%, #d9343c 100%);
   border: 0;
   border-radius: 8px;
+  box-shadow: 0 12px 24px rgba(231, 63, 70, 0.22);
   color: white;
   cursor: pointer;
-  flex: 0 0 124px;
+  flex: 0 0 132px;
   font-weight: 800;
-  height: 52px;
-  transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+  height: 56px;
+  letter-spacing: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease, filter 0.2s ease;
 }
 
 .search-button:hover:not(:disabled) {
-  background: #ff535a;
   border-color: transparent;
+  filter: brightness(1.06);
   transform: translateY(-1px);
 }
 
