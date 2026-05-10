@@ -1,0 +1,12 @@
+services:
+  movies-app:
+    build: .
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    volumes:
+      - movies-data:/app/server/data
+
+volumes:
+  movies-data:

@@ -1,75 +1,69 @@
-# Movies App - React + API
+# Movies App - React + Backend API
 
-This is a feature-rich **Movie Website** built using **React** for the front-end framework. The project integrates with an external movie API to provide users with an immersive movie browsing experience.
-
-## Project Overview
-
-This interactive website allows users to browse movies, search for specific titles, and save their favorites for later viewing. The application demonstrates effective use of React's core hooks system for state management and component lifecycle handling.
+This movie app uses React for the frontend and a small Node backend for API proxying, authentication, authorization, and per-user favorites.
 
 ## Features
 
-- **External API Integration**: Connects to a movie API to fetch comprehensive movie data.
-- **Search Functionality**: Easily find movies by title with a responsive search feature.
-- **Favorites System**: Save and manage your favorite movies with just one click.
-- **React Hooks**: Utilizes useState, useEffect, and useContext for efficient state management.
-- **Responsive Design**: Works seamlessly across desktop and mobile devices.
+- Backend movie API proxy, so the TMDB key stays on the server.
+- Sign up, sign in, sign out, and persisted user sessions.
+- Protected favorites: guests cannot view or change favorites.
+- Per-user favorite movies stored by the backend.
+- Docker support for running the full-stack app.
 
-## Installation
+## Local Setup
 
-To run this project locally, follow these steps:
+1. Install dependencies:
 
-1. **Clone the repository**:
-
-```
-git clone https://github.com/your-username/Movies-app.git
-```
-
-2. **Navigate into the project directory**:
-
-```
-cd movie-website
-```
-
-3. **Install dependencies**:
-
-```
+```bash
 npm install
 ```
 
-4. **Create a .env file and add your API key**:
+2. Create `.env` from `.env.example` and fill in the values:
 
-```
-REACT_APP_API_KEY=your_api_key_here
-```
-
-5. **Start the development server**:
-
-```
-npm start
+```bash
+TMDB_API_KEY=your_tmdb_api_key_here
+AUTH_TOKEN_SECRET=replace_with_a_long_random_secret
+CLIENT_ORIGIN=http://localhost:5173
+PORT=4000
+VITE_API_BASE_URL=http://localhost:4000/api
 ```
 
-This will start the React development server. Open your browser and go to `http://localhost:3000` to use the application!
+3. Start the backend:
 
-## Technologies Used
+```bash
+npm run server
+```
 
-- **React**: Frontend framework to build the interactive movie website.
-- **React Hooks**: useState, useEffect, and useContext for state management.
-- **External Movie API**: Provides access to a vast database of movies and related information.
-- **LocalStorage**: Persists user favorites across sessions.
+4. Start the frontend in another terminal:
 
-## How to Use
+```bash
+npm run dev
+```
 
-1. Browse trending movies on the homepage.
-2. Use the search bar to find specific movies by title.
-3. Click the heart icon to add movies to your favorites.
-4. Navigate to the favorites page to view and manage your saved movies.
+Open the Vite URL shown in the terminal.
 
-## Customization
+## Docker
 
-- You can modify the API endpoints to fetch different types of movie data.
-- The favorites system can be extended to include ratings or personal notes.
-- The UI can be customized to match your preferred style and branding.
+Create a `.env` file first, then run:
 
-## License
+```bash
+docker compose up --build
+```
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Open:
+
+```text
+http://localhost:4000/Movies-app/
+```
+
+The Docker setup stores local users and favorites in a named volume.
+
+## Useful Scripts
+
+```bash
+npm run dev
+npm run dev:all
+npm run server
+npm run build
+npm run lint
+```
