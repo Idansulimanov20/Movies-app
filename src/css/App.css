@@ -1,10 +1,18 @@
 .main-content {
   flex: 1;
-  padding: 2rem;
+  padding: 1.5rem 2rem 2rem;
   padding-top: 1rem;
   box-sizing: border-box;
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: rgb(61, 74, 77);
+  background:
+    radial-gradient(circle at top left, rgba(231, 63, 70, 0.12), transparent 34rem),
+    linear-gradient(180deg, #16191d 0%, #101114 100%);
+}
+
+@media (max-width: 639px) {
+  .main-content {
+    padding: 1rem;
+  }
 }

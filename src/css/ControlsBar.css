@@ -1,12 +1,21 @@
 .controls-bar {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 14px;
   width: 90%;
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 16px;
-  background-color: #2c2c2c;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  max-width: 980px;
+  margin: 18px auto 30px;
+  padding: 18px;
+  background: rgba(18, 20, 24, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+}
+
+@media (max-width: 639px) {
+  .controls-bar {
+    margin: 8px auto 20px;
+    padding: 12px;
+    width: 100%;
+  }
 }

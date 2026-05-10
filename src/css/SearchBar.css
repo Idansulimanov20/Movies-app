@@ -1,44 +1,104 @@
 .search-row {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
 }
 
-.search-input {
+.search-field {
+  align-items: center;
+  background: #17191d;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  display: flex;
   flex: 1 1 auto;
-  height: 44px;
-  padding: 0 14px;
-  border-radius: 8px 0 0 8px;
-  border: 1px solid #3b3b3b;
-  background-color: #1f1f1f;
-  color: #e5e5e5;
-  font-size: 16px;
+  gap: 0.75rem;
   min-width: 0;
+  padding: 0 0.85rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-.search-input:focus {
-  border-color: #5a75ff;
-  box-shadow: 0 0 6px rgba(90, 117, 255, 0.4);
+.search-field:focus-within {
+  background: #1d2026;
+  border-color: rgba(231, 63, 70, 0.8);
+  box-shadow: 0 0 0 4px rgba(231, 63, 70, 0.16);
+}
+
+.search-icon {
+  color: #969da8;
+  flex: 0 0 auto;
+  font-size: 0.95rem;
+}
+
+.search-input {
+  background: transparent;
+  border: 0;
+  color: #e5e5e5;
+  flex: 1 1 auto;
+  font-size: 1rem;
+  height: 52px;
+  min-width: 0;
+  outline: 0;
+  padding: 0;
+}
+
+.search-input::placeholder {
+  color: #79808b;
+}
+
+.search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search-clear-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #9ca3af;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 32px;
+  justify-content: center;
+  padding: 0;
+  width: 32px;
+}
+
+.search-clear-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: transparent;
+  color: #fff;
 }
 
 .search-button {
-  flex: 0 0 120px;
-  height: 44px;
-  border-radius: 0 8px 8px 0;
-  background-color: #5a75ff;
+  background: #e73f46;
+  border: 0;
+  border-radius: 8px;
   color: white;
-  font-weight: 600;
-  border: none;
   cursor: pointer;
-  transition: 0.2s;
+  flex: 0 0 124px;
+  font-weight: 800;
+  height: 52px;
+  transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
 }
 
 .search-button:hover:not(:disabled) {
-  background-color: #ff0000;
+  background: #ff535a;
+  border-color: transparent;
+  transform: translateY(-1px);
 }
 
 .search-button:disabled {
-  background-color: #3a3a3a;
-  opacity: 0.6;
+  background: #3a3a3a;
+  opacity: 0.72;
   cursor: not-allowed;
+}
+
+@media (max-width: 639px) {
+  .search-row {
+    flex-direction: column;
+  }
+
+  .search-button {
+    flex-basis: auto;
+    width: 100%;
+  }
 }

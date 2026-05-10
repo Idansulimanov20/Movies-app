@@ -23,6 +23,22 @@ function LoginForm() {
   const isSignUp = mode === "signup";
   const isRecover = mode === "recover";
 
+  const resetAuthState = () => {
+    setName("");
+    setEmail("");
+    setUsername("");
+    setPassword("");
+    setError("");
+    setSuccess("");
+    setShowPassword(false);
+  };
+
+  const changeMode = (nextMode) => {
+    if (nextMode === mode) return;
+    resetAuthState();
+    setMode(nextMode);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
@@ -91,22 +107,14 @@ function LoginForm() {
         <button
           type="button"
           className={!isSignUp && !isRecover ? "active" : ""}
-          onClick={() => {
-            setMode("signin");
-            setError("");
-            setSuccess("");
-          }}
+          onClick={() => changeMode("signin")}
         >
           Sign in
         </button>
         <button
           type="button"
           className={isSignUp ? "active" : ""}
-          onClick={() => {
-            setMode("signup");
-            setError("");
-            setSuccess("");
-          }}
+          onClick={() => changeMode("signup")}
         >
           Sign up
         </button>
@@ -199,11 +207,7 @@ function LoginForm() {
         <button
           type="button"
           className="forgot-password-btn"
-          onClick={() => {
-            setMode(isRecover ? "signin" : "recover");
-            setError("");
-            setSuccess("");
-          }}
+          onClick={() => changeMode(isRecover ? "signin" : "recover")}
         >
           {isRecover ? "Back to sign in" : "Forgot password?"}
         </button>

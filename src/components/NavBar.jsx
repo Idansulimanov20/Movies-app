@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "../css/NavBar.css";
 import logo from "../assets/icon.png";
 import { useAuth } from "../context/useAuth";
@@ -19,10 +19,10 @@ function NavBar() {
           </NavLink>
         </div>
 
-        <div className="navbar-center">
+        <Link to="/home" className="navbar-center" aria-label="Watch and Chill home">
           <img src={logo} alt="logo" className="navbar-logo" />
           <span className="navbar-title">Watch & Chill</span>
-        </div>
+        </Link>
 
         <div className="navbar-section">
           <NavLink to="/home" className="nav-link">
