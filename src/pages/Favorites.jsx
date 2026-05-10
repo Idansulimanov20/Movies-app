@@ -1,8 +1,15 @@
 import "../css/Favorites.css";
 import { useMovieContext } from "../context/useMovieContext";
 import MoviesGrid from "../components/MoviesGrid";
+import Loader from "../components/Loader";
 function Favorites() {
-  const { favorites } = useMovieContext();
+  const { favorites, favoritesError, favoritesLoading } = useMovieContext();
+
+  if (favoritesLoading) return <Loader />;
+
+  if (favoritesError) {
+    return <div className="error-message">{favoritesError}</div>;
+  }
 
   if (favorites.length > 0) {
     return (

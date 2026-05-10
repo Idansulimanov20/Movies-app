@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 import "./css/App.css";
 import Login from "./pages/Login";
 import DefaultPage from "./pages/DefaultPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <>
@@ -14,7 +15,14 @@ function App() {
           <Route path="/" element={<DefaultPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/favorites" element={<Favorites />} />
+          <Route
+            path="/favorites"
+            element={
+              <ProtectedRoute>
+                <Favorites />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
     </>
