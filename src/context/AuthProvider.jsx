@@ -3,6 +3,8 @@ import { AuthContext } from "./AuthContext";
 import {
   getCurrentUser,
   recoverPassword,
+  confirmPasswordChange,
+  requestPasswordChangeCode,
   signIn,
   signOut,
   signUp,
@@ -68,6 +70,16 @@ export function AuthProvider({ children }) {
     return data.user;
   }, []);
 
+  const sendPasswordChangeCode = useCallback(async () => {
+    const data = await requestPasswordChangeCode();
+    return data;
+  }, []);
+
+  const changePassword = useCallback(async (payload) => {
+    const data = await confirmPasswordChange(payload);
+    return data.message;
+  }, []);
+
   const value = useMemo(
     () => ({
       user,
@@ -78,8 +90,20 @@ export function AuthProvider({ children }) {
       register,
       requestPasswordRecovery,
       saveProfile,
+      sendPasswordChangeCode,
+      changePassword,
     }),
-    [loading, login, logout, register, requestPasswordRecovery, saveProfile, user]
+    [
+      changePassword,
+      loading,
+      login,
+      logout,
+      register,
+      requestPasswordRecovery,
+      saveProfile,
+      sendPasswordChangeCode,
+      user,
+    ]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

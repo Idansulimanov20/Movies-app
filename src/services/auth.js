@@ -30,3 +30,14 @@ export const updateProfile = (profile) =>
     method: "PATCH",
     body: JSON.stringify(profile),
   });
+
+export const requestPasswordChangeCode = () =>
+  apiRequest("/auth/password/change-code", {
+    method: "POST",
+  });
+
+export const confirmPasswordChange = ({ code, newPassword }) =>
+  apiRequest("/auth/password/change", {
+    method: "POST",
+    body: JSON.stringify({ code, newPassword }),
+  });

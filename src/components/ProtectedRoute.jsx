@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FaHeart, FaLock } from "react-icons/fa";
 import Loader from "./Loader";
 import { useAuth } from "../context/useAuth";
 import "../css/Favorites.css";
@@ -11,17 +12,22 @@ function ProtectedRoute({ children }) {
   if (!isAuthenticated) {
     return (
       <div className="favorites-auth-required">
-        <h2>Favorites are saved for signed-in users</h2>
+        <span className="favorites-auth-icon">
+          <FaLock aria-hidden="true" />
+        </span>
+        <p className="favorites-eyebrow">Private watchlist</p>
+        <h2>Sign in to save your favorite movies</h2>
         <p>
-          Sign in to save movies, keep your favorites in sync, and open them
-          later from any session.
+          Favorites are synced to your account so your movie picks stay
+          available whenever you come back.
         </p>
         <Link
           to="/login"
           state={{ authRequired: true }}
           className="favorites-login-link"
         >
-          Go to login
+          <FaHeart aria-hidden="true" />
+          Sign in and save favorites
         </Link>
       </div>
     );

@@ -57,23 +57,56 @@
 }
 
 .favorites-auth-required {
+  position: relative;
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 3.25rem 2rem;
   margin: 2rem auto;
-  max-width: 640px;
+  max-width: 680px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(229, 9, 20, 0.2), transparent 26rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)),
+    rgba(12, 14, 18, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.32);
+  overflow: hidden;
+}
+
+.favorites-auth-required::after {
+  content: "";
+  position: absolute;
+  inset: auto 12% 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(229, 9, 20, 0.72), transparent);
+}
+
+.favorites-auth-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 1rem;
+  color: #fff;
+  background: linear-gradient(135deg, #e50914, #8f0a10);
+  border-radius: 999px;
+  box-shadow: 0 16px 34px rgba(229, 9, 20, 0.28);
 }
 
 .favorites-auth-required h2 {
-  margin-bottom: 1rem;
-  color: #e50914;
-  font-size: 2rem;
+  max-width: 540px;
+  margin: 0 auto 1rem;
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.05;
 }
 
 .favorites-auth-required p {
   margin: 0 auto 1.75rem;
   max-width: 520px;
-  color: #b8b8b8;
-  font-size: 1.1rem;
+  color: #aeb4bf;
+  font-size: 1.08rem;
   line-height: 1.6;
 }
 
@@ -81,21 +114,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.55rem;
   min-height: 44px;
   padding: 0.75rem 1.4rem;
   color: #fff;
-  background-color: #e50914;
-  border-radius: 8px;
-  font-weight: 700;
+  background: linear-gradient(180deg, #ff535a 0%, #d9343c 100%);
+  border-radius: 999px;
+  font-weight: 850;
+  box-shadow: 0 14px 28px rgba(229, 9, 20, 0.28);
   transition:
     background-color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    filter 0.2s ease;
 }
 
 .favorites-login-link:hover {
   color: #fff;
-  background-color: #f6121d;
-  transform: translateY(-1px);
+  filter: brightness(1.06);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 639px) {
@@ -127,6 +163,7 @@
   .favorites-auth-required {
     margin: 1rem auto;
     padding: 2.25rem 1rem;
+    border-radius: 12px;
   }
 
   .favorites-empty p,

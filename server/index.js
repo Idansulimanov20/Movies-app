@@ -162,6 +162,10 @@ function isPasswordValid(password, storedHash) {
   return crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(candidateHash));
 }
 
+function createVerificationCode() {
+  return crypto.randomInt(100000, 1000000).toString();
+}
+
 function setCorsHeaders(req, res) {
   const origin = req.headers.origin;
   if (!origin || origin === CLIENT_ORIGIN) {
@@ -377,6 +381,74 @@ async function handleAuth(req, res, pathname) {
 
     await writeUsers(users);
     return sendJson(res, 200, { user: serializeUser(users[userIndex]) });
+  }
+
+  if (
+    req.method === "POST" &&
+    pathname === "/api/auth/password/change-code"
+  ) {
+    const currentUser = await getCurrentUser(req);
+    if (!currentUser) return sendError(res, 401, "Authentication is required.");
+
+    const users = await readUsers();
+    const userIndex = users.findIndex((user) => user.id === currentUser.id);
+    if (userIndex === -1)
+      return sendError(res, 401, "Authentication is required.");
+
+    const code = createVerificationCode();
+    users[userIndex].passwordChangeCodeHash = hashPassword(code);
+    users[userIndex].passwordChangeCodeExpiresAt = new Date(
+      Date.now() + 1000 * 60 * 10,
+    ).toISOString();
+
+    await writeUsers(users);
+    console.log(
+      `Password change verification code for ${users[userIndex].email}: ${code}`,
+    );
+
+    return sendJson(res, 200, {
+      message: "A verification code was sent to your email.",
+      email: users[userIndex].email,
+    });
+  }
+
+  if (req.method === "POST" && pathname === "/api/auth/password/change") {
+    const currentUser = await getCurrentUser(req);
+    if (!currentUser) return sendError(res, 401, "Authentication is required.");
+
+    const { code, newPassword } = await readBody(req);
+    if (!/^\d{6}$/.test(code || "")) {
+      return sendError(res, 400, "Enter the 6-digit verification code.");
+    }
+    if (!newPassword || newPassword.length < 6) {
+      return sendError(res, 400, "Password must be at least 6 characters.");
+    }
+
+    const users = await readUsers();
+    const userIndex = users.findIndex((user) => user.id === currentUser.id);
+    if (userIndex === -1)
+      return sendError(res, 401, "Authentication is required.");
+
+    const user = users[userIndex];
+    const codeExpired =
+      !user.passwordChangeCodeExpiresAt ||
+      new Date(user.passwordChangeCodeExpiresAt).getTime() < Date.now();
+    if (
+      codeExpired ||
+      !user.passwordChangeCodeHash ||
+      !isPasswordValid(code, user.passwordChangeCodeHash)
+    ) {
+      return sendError(res, 400, "Verification code is invalid or expired.");
+    }
+
+    users[userIndex].passwordHash = hashPassword(newPassword);
+    delete users[userIndex].passwordChangeCodeHash;
+    delete users[userIndex].passwordChangeCodeExpiresAt;
+    await writeUsers(users);
+
+    return sendJson(res, 200, {
+      message: "Password updated successfully.",
+    });
   }
 
   return false;
