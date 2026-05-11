@@ -1,14 +1,31 @@
-# Movies App - React + Backend API
+# Watch & Chill
 
-This movie app uses React for the frontend and a small Node backend for API proxying, authentication, authorization, and per-user favorites.
+Watch & Chill is a React movie discovery app with a small Node backend for movie API proxying, authentication, protected favorites, and profile security features.
 
 ## Features
 
-- Backend movie API proxy, so the TMDB key stays on the server.
+- Modern streaming-style UI with a responsive navbar, polished landing page, and mobile-friendly layouts.
+- Movie discovery through a backend TMDB proxy, keeping the TMDB API key off the frontend.
+- Search, title filtering, and release-year filtering.
 - Sign up, sign in, sign out, and persisted user sessions.
-- Protected favorites: guests cannot view or change favorites.
+- Protected favorites with a guest-friendly access screen instead of an automatic redirect.
 - Per-user favorite movies stored by the backend.
+- Profile modal for display name and avatar updates.
+- Password change flow with a 6-digit email verification step.
+- Production-style toast notifications with generic user-facing error messages and detailed console logging.
+- Branded loader with an embedded optimized logo so it appears immediately, even on slower connections.
+- Responsive media queries for mobile, tablet, and desktop views.
 - Docker support for running the full-stack app.
+
+## Tech Stack
+
+- React 19
+- Vite
+- React Router
+- React Icons
+- React Toastify
+- Node.js HTTP server
+- Local JSON file persistence for development
 
 ## Local Setup
 
@@ -40,7 +57,27 @@ npm run server
 npm run dev
 ```
 
-Open the Vite URL shown in the terminal.
+Open the Vite URL shown in the terminal. With the configured basename, routes are served under:
+
+```text
+http://localhost:5173/Movies-app/
+```
+
+You can also run frontend and backend together:
+
+```bash
+npm run dev:all
+```
+
+## Password Verification Notes
+
+The password change flow is shaped like a production two-step verification flow:
+
+1. The signed-in user requests a verification code from the profile modal.
+2. The backend generates a 6-digit code that expires after 10 minutes.
+3. The user enters the code and a new password.
+
+This project does not include a real email provider yet. In local development, the verification code is logged in the backend console. The forgot-password flow follows the same development pattern.
 
 ## Docker
 
@@ -66,4 +103,13 @@ npm run dev:all
 npm run server
 npm run build
 npm run lint
+npm run preview
 ```
+
+## Production Notes
+
+- Replace local JSON persistence with a database before deploying for real users.
+- Connect an email provider for verification codes and password recovery.
+- Set a strong `AUTH_TOKEN_SECRET` in production.
+- Keep `TMDB_API_KEY` server-side only.
+- Run `npm run build` and `npm run lint` before publishing changes.
