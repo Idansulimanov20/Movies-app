@@ -8,7 +8,7 @@ import "../css/Home.css";
 import { searchMovies, getPopularMovies } from "../services/api";
 
 const GENERIC_FETCH_ERROR =
-  "Something went wrong. Please contact support if the problem continues.";
+  "We could not load movies right now. Please try again later.";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");

@@ -5,7 +5,7 @@ import { useAuth } from "./useAuth";
 import { addFavorite, getFavorites, removeFavorite } from "../services/api";
 
 const GENERIC_FAVORITES_ERROR =
-  "Something went wrong with favorites. Please contact support if it continues.";
+  "We could not update your favorites right now. Please try again in a moment.";
 
 export function MovieProvider({ children }) {
   const { isAuthenticated, loading: authLoading } = useAuth();

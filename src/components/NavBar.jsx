@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { FaCompass, FaHeart, FaHome, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import "../css/NavBar.css";
 import logo from "../assets/icon.png";
 import { useAuth } from "../context/useAuth";
@@ -13,24 +14,30 @@ function NavBar() {
   return (
     <>
       <nav className="navbar">
-        <div className="navbar-section">
+        <Link to="/home" className="navbar-brand" aria-label="Watch and Chill home">
+          <img src={logo} alt="logo" className="navbar-logo" />
+          <span className="navbar-copy">
+            <span className="navbar-title">Watch & Chill</span>
+            <span className="navbar-tagline">Stream your next favorite</span>
+          </span>
+        </Link>
+
+        <div className="navbar-links" aria-label="Primary navigation">
           <NavLink to="/" className="nav-link">
-            About Us
+            <FaCompass aria-hidden="true" />
+            <span>Discover</span>
+          </NavLink>
+          <NavLink to="/home" className="nav-link">
+            <FaHome aria-hidden="true" />
+            <span>Home</span>
+          </NavLink>
+          <NavLink to="/favorites" className="nav-link">
+            <FaHeart aria-hidden="true" />
+            <span>Favorites</span>
           </NavLink>
         </div>
 
-        <Link to="/home" className="navbar-center" aria-label="Watch and Chill home">
-          <img src={logo} alt="logo" className="navbar-logo" />
-          <span className="navbar-title">Watch & Chill</span>
-        </Link>
-
-        <div className="navbar-section">
-          <NavLink to="/home" className="nav-link">
-            Home
-          </NavLink>
-          <NavLink to="/favorites" className="nav-link">
-            Favorites
-          </NavLink>
+        <div className="navbar-actions">
           {isAuthenticated ? (
             <div className="nav-account">
               <button
@@ -42,15 +49,20 @@ function NavBar() {
                 <span className="nav-avatar">
                   {user?.avatar ? <img src={user.avatar} alt="" /> : initials}
                 </span>
-                <span className="nav-account-text">{user?.name}</span>
+                <span className="nav-account-copy">
+                  <span className="nav-account-label">Profile</span>
+                  <span className="nav-account-text">{user?.name || user?.username}</span>
+                </span>
               </button>
               <button type="button" className="logout-button" onClick={logout}>
-                Logout
+                <FaSignOutAlt aria-hidden="true" />
+                <span>Logout</span>
               </button>
             </div>
           ) : (
             <NavLink to="/login" className="nav-link login-btn">
-              Login
+              <FaSignInAlt aria-hidden="true" />
+              <span>Login</span>
             </NavLink>
           )}
         </div>
