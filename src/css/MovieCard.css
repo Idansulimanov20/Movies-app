@@ -165,3 +165,50 @@
     font-size: 1.2rem;
   }
 }
+
+@media (max-width: 639px) {
+  .movie-card:hover {
+    transform: none;
+  }
+
+  .movie-overlay {
+    opacity: 1;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.48)
+    );
+    padding: 0.65rem;
+  }
+
+  .movie-info {
+    gap: 0.35rem;
+  }
+
+  .movie-info h3 {
+    display: -webkit-box;
+    font-size: 0.92rem;
+    line-height: 1.25;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .movie-info p {
+    font-size: 0.82rem;
+  }
+
+  .favorite-btn {
+    top: 0.6rem;
+    right: 0.6rem;
+  }
+
+  .movie-placeholder-logo {
+    width: 54px;
+    height: 54px;
+  }
+
+  .movie-placeholder-copy {
+    display: none;
+  }
+}

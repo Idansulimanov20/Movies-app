@@ -107,3 +107,60 @@
   margin-bottom: 2rem;
   text-shadow: 0 0 10px rgba(255, 59, 59, 0.5);
 }
+
+@media (max-width: 760px) {
+  .default-page {
+    padding: 1.25rem 0.25rem 2rem;
+    min-height: auto;
+  }
+
+  .welcome-title {
+    font-size: clamp(2rem, 9vw, 2.6rem);
+    line-height: 1.08;
+  }
+
+  .welcome-text {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    margin-bottom: 1.75rem;
+  }
+
+  .features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin: 1.5rem 0;
+  }
+
+  .feature-item {
+    padding: 1rem;
+  }
+
+  .feature-icon {
+    font-size: 1.5rem;
+  }
+
+  .feature-item h3 {
+    font-size: 1rem;
+  }
+
+  .feature-item p {
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .final-line {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .features {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .get-started-btn {
+    width: 100%;
+    max-width: 280px;
+    padding-inline: 1rem;
+  }
+}

@@ -166,3 +166,38 @@
   background: #2a2a2a;
   color: #fff;
 }
+
+@media (max-width: 520px) {
+  .profile-modal-backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .profile-modal {
+    width: 100%;
+    max-width: none;
+    max-height: calc(100vh - 1rem);
+    overflow-y: auto;
+    border-radius: 16px 16px 0 0;
+    padding: 1.35rem;
+  }
+
+  .profile-modal h2 {
+    font-size: 1.35rem;
+    padding-right: 2.4rem;
+  }
+
+  .profile-avatar-picker {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .profile-actions {
+    flex-direction: column-reverse;
+  }
+
+  .profile-primary,
+  .profile-secondary {
+    width: 100%;
+  }
+}

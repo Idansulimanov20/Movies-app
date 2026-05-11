@@ -129,8 +129,17 @@
     flex-direction: column;
   }
 
+  .filter-input,
+  .filter-year-button {
+    height: 50px;
+  }
+
   .filter-year-picker {
     flex-basis: auto;
     width: 100%;
+  }
+
+  .filter-year-menu {
+    max-height: 220px;
   }
 }

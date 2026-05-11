@@ -74,3 +74,30 @@
   background-color: #f6121d;
   transform: translateY(-1px);
 }
+
+@media (max-width: 639px) {
+  .favorites {
+    padding: 1rem 0;
+  }
+
+  .favorites h2,
+  .favorites-empty h2,
+  .favorites-auth-required h2 {
+    font-size: clamp(1.55rem, 7vw, 2rem);
+  }
+
+  .favorites-empty,
+  .favorites-auth-required {
+    margin: 1rem auto;
+    padding: 2.25rem 1rem;
+  }
+
+  .favorites-empty p,
+  .favorites-auth-required p {
+    font-size: 1rem;
+  }
+
+  .favorites-login-link {
+    width: min(100%, 260px);
+  }
+}

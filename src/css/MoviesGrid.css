@@ -20,3 +20,19 @@
 .movies-grid > * {
   animation: fadeIn 0.3s ease-out forwards;
 }
+
+@media (max-width: 639px) {
+  .movies-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    padding: 0.5rem 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .movies-grid {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 280px;
+    margin-inline: auto;
+  }
+}
