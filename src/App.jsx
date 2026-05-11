@@ -6,6 +6,7 @@ import "./css/App.css";
 import Login from "./pages/Login";
 import DefaultPage from "./pages/DefaultPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AIAssistance from "./pages/AIAssistance";
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<DefaultPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/ai-assistance" element={<AIAssistance />} />
           <Route
             path="/favorites"
             element={
