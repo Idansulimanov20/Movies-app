@@ -10,7 +10,13 @@ function Favorites() {
   if (favorites.length > 0) {
     return (
       <div className="favorites">
-        <h2>Your Favorites</h2>
+        <header className="favorites-header">
+          <p className="favorites-eyebrow">Personal library</p>
+          <h2>Movies you saved for later</h2>
+          <p className="favorites-header-copy">
+            Your hand-picked watchlist is ready whenever movie night starts.
+          </p>
+        </header>
         <MoviesGrid movies={favorites} />
       </div>
     );
