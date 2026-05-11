@@ -1,5 +1,13 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family:
+    Inter,
+    "SF Pro Display",
+    "Segoe UI Variable",
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -29,6 +37,7 @@ body {
   width: 100%;
   min-height: 100vh;
   position: relative;
+  letter-spacing: 0;
 }
 
 #root {
@@ -50,6 +59,7 @@ a:hover {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  font-weight: 850;
 }
 
 button {

@@ -2,21 +2,133 @@
   width: 100%;
   min-height: 350px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
+  color: rgba(255, 255, 255, 0.78);
 }
 
-.movies-loader {
-  width: 150px;
-  height: 150px;
-  border: 12px solid #5a75ff;
-  border-top-color: transparent;
+.movies-loader-shell {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  display: grid;
+  place-items: center;
   border-radius: 50%;
-  animation: spin 0.9s linear infinite;
+  background:
+    radial-gradient(circle, rgba(229, 9, 20, 0.22), transparent 60%),
+    rgba(255, 255, 255, 0.03);
+  box-shadow:
+    0 0 34px rgba(229, 9, 20, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
-@keyframes spin {
+.movies-loader-ring {
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  border-top-color: #e50914;
+  border-right-color: rgba(229, 9, 20, 0.72);
+  border-bottom-color: rgba(255, 255, 255, 0.22);
+  animation: loader-spin 0.9s linear infinite;
+}
+
+.movies-loader-core {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)),
+    rgba(8, 9, 12, 0.92);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  box-shadow:
+    0 0 26px rgba(229, 9, 20, 0.42),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  animation: loader-pulse 1.3s ease-in-out infinite;
+}
+
+.movies-loader-logo {
+  position: relative;
+  z-index: 1;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(229, 9, 20, 0.32));
+}
+
+.movies-loader-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.35rem;
+  height: 20px;
+}
+
+.movies-loader-bars span {
+  width: 28px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(229, 9, 20, 0.42);
+  animation: loader-bars 1s ease-in-out infinite;
+}
+
+.movies-loader-bars span:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+.movies-loader-bars span:nth-child(3) {
+  animation-delay: 0.28s;
+}
+
+.movies-loader-label {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@keyframes loader-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-pulse {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.72;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes loader-bars {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: scaleX(0.72);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleX(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .movies-loader-ring,
+  .movies-loader-core,
+  .movies-loader-bars span {
+    animation-duration: 2.4s;
   }
 }

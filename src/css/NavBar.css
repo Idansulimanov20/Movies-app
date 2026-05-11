@@ -9,7 +9,6 @@
   grid-template-columns: minmax(220px, 0.9fr) auto minmax(220px, 0.9fr);
   align-items: center;
   gap: 1rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   min-height: 76px;
   padding: 0.85rem clamp(1rem, 3vw, 2.5rem);
   position: sticky;
