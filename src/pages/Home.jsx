@@ -2,16 +2,19 @@ import { useCallback, useEffect, useState } from "react";
 import MoviesGrid from "../components/MoviesGrid";
 import ControlsBar from "../components/ControlsBar";
 import Loader from "../components/Loader";
+import { toast } from "react-toastify";
 
 import "../css/Home.css";
 import { searchMovies, getPopularMovies } from "../services/api";
+
+const GENERIC_FETCH_ERROR =
+  "Something went wrong. Please contact support if the problem continues.";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterText, setFilterText] = useState("");
   const [yearFilter, setYearFilter] = useState("");
   const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const loadDefaultMovies = useCallback(async () => {
@@ -19,10 +22,11 @@ function Home() {
     try {
       const moviesData = await getPopularMovies();
       setMovies(moviesData);
-      setError(null);
     } catch (err) {
-      console.error(err);
-      setError("Error fetching data. Try again later.");
+      console.error("Failed to fetch popular movies:", err);
+      toast.error(GENERIC_FETCH_ERROR, {
+        toastId: "popular-movies-error",
+      });
     } finally {
       setLoading(false);
     }
@@ -43,10 +47,11 @@ function Home() {
       setMovies(results);
       setFilterText("");
       setYearFilter("");
-      setError(null);
     } catch (err) {
-      console.error(err);
-      setError("Error fetching data. Try again later.");
+      console.error("Failed to search movies:", err);
+      toast.error(GENERIC_FETCH_ERROR, {
+        toastId: "search-movies-error",
+      });
     } finally {
       setLoading(false);
     }
@@ -84,8 +89,6 @@ function Home() {
         yearFilter={yearFilter}
         setYearFilter={setYearFilter}
       />
-
-      {error && <div className="error-message">{error}</div>}
 
       {loading ? <Loader /> : <MoviesGrid movies={filteredMovies} />}
     </div>

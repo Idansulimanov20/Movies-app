@@ -104,22 +104,24 @@ function LoginForm() {
       <h2>{authCopy[mode].title}</h2>
       <p className="login-subtitle">{authCopy[mode].subtitle}</p>
 
-      <div className="auth-mode-toggle" aria-label="Authentication mode">
-        <button
-          type="button"
-          className={!isSignUp && !isRecover ? "active" : ""}
-          onClick={() => changeMode("signin")}
-        >
-          Sign in
-        </button>
-        <button
-          type="button"
-          className={isSignUp ? "active" : ""}
-          onClick={() => changeMode("signup")}
-        >
-          Sign up
-        </button>
-      </div>
+      {!isRecover && (
+        <div className="auth-mode-toggle" aria-label="Authentication mode">
+          <button
+            type="button"
+            className={!isSignUp ? "active" : ""}
+            onClick={() => changeMode("signin")}
+          >
+            Sign in
+          </button>
+          <button
+            type="button"
+            className={isSignUp ? "active" : ""}
+            onClick={() => changeMode("signup")}
+          >
+            Sign up
+          </button>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="login-form">
         {(isSignUp || isRecover) && (

@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { MovieContext } from "./MovieContext";
 import { useAuth } from "./useAuth";
 import { addFavorite, getFavorites, removeFavorite } from "../services/api";
+
+const GENERIC_FAVORITES_ERROR =
+  "Something went wrong with favorites. Please contact support if it continues.";
 
 export function MovieProvider({ children }) {
   const { isAuthenticated, loading: authLoading } = useAuth();
   const [favorites, setFavorites] = useState([]);
   const [favoritesLoading, setFavoritesLoading] = useState(false);
-  const [favoritesError, setFavoritesError] = useState("");
 
   useEffect(() => {
     let ignore = false;
@@ -17,16 +20,22 @@ export function MovieProvider({ children }) {
 
       if (!isAuthenticated) {
         setFavorites([]);
-        setFavoritesError("");
         return;
       }
 
       setFavoritesLoading(true);
       try {
         const nextFavorites = await getFavorites();
-        if (!ignore) setFavorites(nextFavorites);
+        if (!ignore) {
+          setFavorites(nextFavorites);
+        }
       } catch (error) {
-        if (!ignore) setFavoritesError(error.message);
+        console.error("Failed to load favorites:", error);
+        if (!ignore) {
+          toast.error(GENERIC_FAVORITES_ERROR, {
+            toastId: "load-favorites-error",
+          });
+        }
       } finally {
         if (!ignore) setFavoritesLoading(false);
       }
@@ -45,9 +54,11 @@ export function MovieProvider({ children }) {
     try {
       const nextFavorites = await addFavorite(movie);
       setFavorites(nextFavorites);
-      setFavoritesError("");
     } catch (error) {
-      setFavoritesError(error.message);
+      console.error("Failed to add favorite:", error);
+      toast.error(GENERIC_FAVORITES_ERROR, {
+        toastId: "add-favorite-error",
+      });
     }
   };
 
@@ -57,9 +68,11 @@ export function MovieProvider({ children }) {
     try {
       const nextFavorites = await removeFavorite(movieId);
       setFavorites(nextFavorites);
-      setFavoritesError("");
     } catch (error) {
-      setFavoritesError(error.message);
+      console.error("Failed to remove favorite:", error);
+      toast.error(GENERIC_FAVORITES_ERROR, {
+        toastId: "remove-favorite-error",
+      });
     }
   };
 
@@ -69,7 +82,6 @@ export function MovieProvider({ children }) {
   const value = {
     favorites,
     favoritesLoading,
-    favoritesError,
     addToFavorites,
     removeFromFavorites,
     isFavorite,
