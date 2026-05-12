@@ -13,6 +13,7 @@ Watch & Chill is a React movie discovery app with a small Node backend for movie
 - Profile modal for display name and avatar updates.
 - Password change flow with a 6-digit email verification step.
 - Production-style toast notifications with generic user-facing error messages and detailed console logging.
+- AI movie assistant demo with chat-style prompts, saved recommendation sets, and favorite-saving support for signed-in users.
 - Branded loader with an embedded optimized logo so it appears immediately, even on slower connections.
 - Responsive media queries for mobile, tablet, and desktop views.
 - Docker support for running the full-stack app.
@@ -26,6 +27,7 @@ Watch & Chill is a React movie discovery app with a small Node backend for movie
 - React Toastify
 - Node.js HTTP server
 - Local JSON file persistence for development
+- Built-in mock AI recommendation engine for interactive demo mode
 
 ## Local Setup
 
@@ -62,6 +64,8 @@ Open the Vite URL shown in the terminal. With the configured basename, routes ar
 ```text
 http://localhost:5173/Movies-app/
 ```
+
+The new AI assistant is available at `/Movies-app/ai-assistance` and uses a built-in mock recommendation engine for local demo mode.
 
 You can also run frontend and backend together:
 
