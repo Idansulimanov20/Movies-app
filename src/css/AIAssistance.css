@@ -195,7 +195,7 @@
 .ai-avatar,
 .ai-message-icon {
   align-items: center;
-  background: linear-gradient(135deg, #12a37f, #0b6b57);
+  background: linear-gradient(145deg, #6366f1 0%, #7c3aed 55%, #a855f7 100%);
   border-radius: 999px;
   color: #fff;
   display: inline-flex;
@@ -204,6 +204,12 @@
   justify-content: center;
   width: 42px;
   height: 42px;
+}
+
+.ai-avatar svg,
+.ai-message:not(.user) .ai-message-icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
 }
 
 .ai-chat-header h2 {
