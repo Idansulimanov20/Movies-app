@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FaCompass, FaHeart, FaHome, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
-import { HiSparkles } from "react-icons/hi2";
+import { FaCompass, FaHeart, FaHome, FaRobot, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import "../css/NavBar.css";
 import logo from "../assets/icon.png";
 import { useAuth } from "../context/useAuth";
@@ -33,7 +32,7 @@ function NavBar() {
             <span>Home</span>
           </NavLink>
           <NavLink to="/ai-assistance" className="nav-link">
-            <HiSparkles aria-hidden="true" />
+            <FaRobot aria-hidden="true" />
             <span>AI</span>
           </NavLink>
           <NavLink to="/favorites" className="nav-link">
