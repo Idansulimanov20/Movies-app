@@ -240,6 +240,42 @@
   box-shadow: 0 0 0 3px rgba(231, 63, 70, 0.12);
 }
 
+.profile-otp-field > span {
+  display: block;
+}
+
+.profile-otp-row {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: flex-start;
+}
+
+.profile-otp-cell {
+  aspect-ratio: 1;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent),
+    #171a20;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 800;
+  height: 48px;
+  max-width: 52px;
+  outline: 0;
+  padding: 0;
+  text-align: center;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  width: 100%;
+}
+
+.profile-otp-cell:focus {
+  border-color: rgba(231, 63, 70, 0.72);
+  box-shadow: 0 0 0 3px rgba(231, 63, 70, 0.12);
+}
+
 .profile-verification-panel {
   align-items: flex-start;
   background: rgba(0, 0, 0, 0.18);
@@ -337,6 +373,17 @@
 }
 
 @media (max-width: 520px) {
+  .profile-otp-row {
+    gap: 0.35rem;
+    justify-content: center;
+  }
+
+  .profile-otp-cell {
+    font-size: 1.1rem;
+    height: 44px;
+    max-width: 46px;
+  }
+
   .profile-modal-backdrop {
     align-items: flex-end;
     padding: 0;

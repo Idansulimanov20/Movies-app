@@ -1,8 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { toast } from "react-toastify";
 import { FaCamera, FaCheckCircle, FaEnvelope, FaLock, FaTimes } from "react-icons/fa";
 import { useAuth } from "../context/useAuth";
 import "../css/UserProfileModal.css";
+
+/** Next OTP string + which cell to focus after commit (standard 6-digit UX). */
+function computeOtpDigitResult(prev, index, digit) {
+  if (index > prev.length) {
+    return { next: prev, focusIndex: Math.min(prev.length, 5) };
+  }
+  const chars = prev.split("");
+  if (index < chars.length) {
+    chars[index] = digit;
+    const next = chars.join("").slice(0, 6);
+    return { next, focusIndex: index < 5 ? index + 1 : null };
+  }
+  if (index === chars.length && chars.length < 6) {
+    const next = (prev + digit).slice(0, 6);
+    return { next, focusIndex: index < 5 ? index + 1 : null };
+  }
+  return { next: prev, focusIndex: null };
+}
 
 function UserProfileModal({ open, onClose }) {
   const {
@@ -23,6 +42,7 @@ function UserProfileModal({ open, onClose }) {
   const [saving, setSaving] = useState(false);
   const [requestingCode, setRequestingCode] = useState(false);
   const [changingPassword, setChangingPassword] = useState(false);
+  const otpInputRefs = useRef([]);
 
   useEffect(() => {
     if (!open) return;
@@ -36,6 +56,66 @@ function UserProfileModal({ open, onClose }) {
     setNewPassword("");
     setConfirmPassword("");
   }, [open, user]);
+
+  useEffect(() => {
+    if (!verificationSent) return;
+    const id = requestAnimationFrame(() => otpInputRefs.current[0]?.focus());
+    return () => cancelAnimationFrame(id);
+  }, [verificationSent]);
+
+  const handleOtpChange = (index, event) => {
+    const rawDigits = event.target.value.replace(/\D/g, "");
+
+    if (!rawDigits) {
+      flushSync(() =>
+        setVerificationCode((prev) => prev.slice(0, index) + prev.slice(index + 1))
+      );
+      return;
+    }
+
+    let focusIndex = null;
+
+    flushSync(() => {
+      setVerificationCode((prev) => {
+        if (rawDigits.length > 1) {
+          const chunk = rawDigits.slice(0, 6);
+          const prefix = prev.slice(0, index);
+          const merged = (prefix + chunk).slice(0, 6);
+          focusIndex = Math.min(merged.length, 5);
+          return merged;
+        }
+
+        const digit = rawDigits.slice(-1);
+        const result = computeOtpDigitResult(prev, index, digit);
+        focusIndex = result.focusIndex;
+        return result.next;
+      });
+    });
+
+    if (typeof focusIndex === "number") {
+      otpInputRefs.current[focusIndex]?.focus({ preventScroll: true });
+    }
+  };
+
+  const handleOtpKeyDown = (index, event) => {
+    if (event.key !== "Backspace") return;
+    if (verificationCode[index]) return;
+    event.preventDefault();
+    if (index === 0) return;
+    otpInputRefs.current[index - 1]?.focus();
+    setVerificationCode((prev) => prev.slice(0, index - 1) + prev.slice(index));
+  };
+
+  const handleOtpPaste = (event) => {
+    event.preventDefault();
+    const pasted = event.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, 6);
+    flushSync(() => setVerificationCode(pasted));
+    const nextFocus = Math.min(Math.max(pasted.length - 1, 0), 5);
+    otpInputRefs.current[nextFocus]?.focus({ preventScroll: true });
+  };
 
   if (!open) return null;
 
@@ -257,21 +337,34 @@ function UserProfileModal({ open, onClose }) {
 
             {verificationSent && (
               <form className="profile-password-form" onSubmit={handlePasswordChange}>
-                <label className="profile-field">
-                  <span>Verification code</span>
-                  <input
-                    type="text"
-                    value={verificationCode}
-                    onChange={(event) =>
-                      setVerificationCode(
-                        event.target.value.replace(/\D/g, "").slice(0, 6)
-                      )
-                    }
-                    inputMode="numeric"
-                    autoComplete="one-time-code"
-                    placeholder="6-digit code"
-                  />
-                </label>
+                <div className="profile-field profile-otp-field">
+                  <span id="profile-otp-label">Verification code</span>
+                  <div
+                    className="profile-otp-row"
+                    role="group"
+                    aria-labelledby="profile-otp-label"
+                    onPaste={handleOtpPaste}
+                  >
+                    {Array.from({ length: 6 }, (_, index) => (
+                      <input
+                        key={index}
+                        ref={(el) => {
+                          otpInputRefs.current[index] = el;
+                        }}
+                        type="text"
+                        inputMode="numeric"
+                        pattern="\d*"
+                        maxLength={1}
+                        className="profile-otp-cell"
+                        value={verificationCode[index] ?? ""}
+                        onChange={(event) => handleOtpChange(index, event)}
+                        onKeyDown={(event) => handleOtpKeyDown(index, event)}
+                        aria-label={`Digit ${index + 1} of 6`}
+                        autoComplete={index === 0 ? "one-time-code" : "off"}
+                      />
+                    ))}
+                  </div>
+                </div>
 
                 <div className="profile-password-grid">
                   <label className="profile-field">
