@@ -15,7 +15,7 @@ function NavBar() {
   return (
     <>
       <nav className="navbar">
-        <Link to="/home" className="navbar-brand" aria-label="Watch and Chill home">
+        <Link to="/" className="navbar-brand" aria-label="Watch and Chill home">
           <img src={logoUrl} alt="logo" className="navbar-logo" />
           <span className="navbar-copy">
             <span className="navbar-title">Watch & Chill</span>
