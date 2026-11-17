@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import type { SavedRecommendation } from "../../types";
-import { SAVED_RECOMMENDATIONS_KEY } from "./constants";
-import { safelyReadSavedRecommendations } from "./savedRecommendationsStorage";
+import type { SavedRecommendation } from "../types";
+import { SAVED_RECOMMENDATIONS_KEY } from "../config/constants";
+import { safelyReadSavedRecommendations } from "../pages/ai-assistance/lib/savedRecommendationsStorage";
 
 export function useSavedRecommendations() {
   const [savedRecommendations, setSavedRecommendations] = useState<SavedRecommendation[]>(

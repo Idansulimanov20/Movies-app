@@ -1,15 +1,15 @@
-import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaCompass, FaHeart, FaHome, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { HiSparkles } from "react-icons/hi2";
-import "../css/NavBar.css";
-import { useAuth } from "../context/useAuth";
-import UserProfileModal from "./UserProfileModal";
+import "../styles/NavBar.css";
+import { useAuth } from "../contexts/useAuth";
+import UserProfileModal from "./auth/UserProfileModal";
+import { useNavBar } from "../hooks/useNavBar";
 
 function NavBar() {
   const logoUrl = `${import.meta.env.BASE_URL}icon.png`;
   const { isAuthenticated, logout, user } = useAuth();
-  const [profileOpen, setProfileOpen] = useState(false);
+  const { profileOpen, setProfileOpen } = useNavBar();
   const initials = (user?.name || user?.username || "U").slice(0, 1).toUpperCase();
 
   return (

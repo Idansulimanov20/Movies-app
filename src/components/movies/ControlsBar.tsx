@@ -1,6 +1,6 @@
-import SearchBar from "../components/SearchBar";
-import FilterBar from "../components/FilterBar";
-import "../css/ControlsBar.css";
+import SearchBar from "./SearchBar";
+import FilterBar from "./FilterBar";
+import "../../styles/ControlsBar.css";
 
 function ControlsBar({
   searchQuery,

@@ -1,6 +1,6 @@
-import "../css/MovieCard.css";
-import { useAuth } from "../context/useAuth";
-import { useMovieContext } from "../context/useMovieContext";
+import "../../styles/MovieCard.css";
+import { useAuth } from "../../contexts/useAuth";
+import { useMovieContext } from "../../contexts/useMovieContext";
 
 function MovieCard({ movie }) {
   const logoUrl = `${import.meta.env.BASE_URL}icon.png`;

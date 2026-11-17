@@ -4,9 +4,9 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./css/index.css";
-import { MovieProvider } from "./context/MovieProvider";
-import { AuthProvider } from "./context/AuthProvider";
+import "../styles/index.css";
+import { MovieProvider } from "../contexts/MovieProvider";
+import { AuthProvider } from "../contexts/AuthProvider";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

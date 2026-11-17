@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaArrowRight, FaHeart, FaPlay, FaSearch, FaStar } from "react-icons/fa";
 import { HiSparkles } from "react-icons/hi2";
-import { useAuth } from "../context/useAuth";
-import { getPopularMovies } from "../services/api";
-import type { Movie } from "../types";
-import "../css/DefaultPage.css";
+import { useAuth } from "../../contexts/useAuth";
+import "../../styles/DefaultPage.css";
+import { usePopularMovies } from "../../hooks/usePopularMovies";
 
 const discoveryCards = [
   { title: "Explore movies", copy: "Search popular titles and find a new favorite.", to: "/home", icon: FaSearch },
@@ -16,19 +14,7 @@ const moodLinks = ["Action", "Comedy", "Thriller", "Romance", "Family"];
 
 function DefaultPage() {
   const { isAuthenticated } = useAuth();
-  const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
-
-  useEffect(() => {
-    let active = true;
-    getPopularMovies()
-      .then((movies) => {
-        if (active) setPopularMovies(movies.filter((movie: Movie) => movie.poster_path).slice(0, 12));
-      })
-      .catch(() => {
-        // The hero remains fully usable if the catalog is unavailable.
-      });
-    return () => { active = false; };
-  }, []);
+  const popularMovies = usePopularMovies();
 
   return (
     <div className="default-page cinematic-home">

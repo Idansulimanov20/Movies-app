@@ -1,13 +1,9 @@
-import "../css/FilterBar.css";
+import "../../styles/FilterBar.css";
 import { FaCalendarAlt, FaChevronDown } from "react-icons/fa";
-import { useMemo, useState } from "react";
+import { useFilterBar } from "../../hooks/useFilterBar";
 
 function FilterBar({ filterText, setFilterText, yearFilter, setYearFilter }) {
-  const [yearMenuOpen, setYearMenuOpen] = useState(false);
-  const years = useMemo(
-    () => Array.from({ length: 50 }, (_, i) => String(2027 - i)),
-    []
-  );
+  const { yearMenuOpen, setYearMenuOpen, years } = useFilterBar();
   const selectedYearLabel = yearFilter || "All Years";
 
   const selectYear = (year) => {

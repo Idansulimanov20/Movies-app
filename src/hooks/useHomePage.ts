@@ -1,16 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import MoviesGrid from "../components/MoviesGrid";
-import ControlsBar from "../components/ControlsBar";
-import Loader from "../components/Loader";
 import { toast } from "react-toastify";
-
-import "../css/Home.css";
-import { searchMovies, getPopularMovies } from "../services/api";
+import { getPopularMovies, searchMovies } from "../services/api";
 
 const GENERIC_FETCH_ERROR =
   "We could not load movies right now. Please try again later.";
 
-function Home() {
+export function useHomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterText, setFilterText] = useState("");
   const [yearFilter, setYearFilter] = useState("");
@@ -76,23 +71,17 @@ function Home() {
     return matchesTitle && matchesYear;
   });
 
-  return (
-    <div className="home">
-      <ControlsBar
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        handleSearch={handleSearch}
-        handleClearSearch={handleClearSearch}
-        loading={loading}
-        filterText={filterText}
-        setFilterText={setFilterText}
-        yearFilter={yearFilter}
-        setYearFilter={setYearFilter}
-      />
-
-      {loading ? <Loader /> : <MoviesGrid movies={filteredMovies} />}
-    </div>
-  );
+  return {
+    searchQuery,
+    setSearchQuery,
+    filterText,
+    setFilterText,
+    yearFilter,
+    setYearFilter,
+    movies,
+    loading,
+    handleSearch,
+    handleClearSearch,
+    filteredMovies,
+  };
 }
-
-export default Home;

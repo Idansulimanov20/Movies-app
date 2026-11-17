@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import { FaHeart, FaLock } from "react-icons/fa";
 import Loader from "./Loader";
-import { useAuth } from "../context/useAuth";
-import "../css/Favorites.css";
+import { useAuth } from "../contexts/useAuth";
+import "../styles/Favorites.css";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();

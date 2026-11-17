@@ -144,7 +144,7 @@ export const STARTER_PROMPTS = [
   "A romantic 90s movie",
 ];
 
-import type { AssistantMessage, Movie } from "../../types";
+import type { AssistantMessage, Movie } from "../../../types";
 
 export function createInitialMessages(): AssistantMessage[] {
   return [

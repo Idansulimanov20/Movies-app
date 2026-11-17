@@ -1,7 +1,7 @@
-import "../css/Favorites.css";
-import { useMovieContext } from "../context/useMovieContext";
-import MoviesGrid from "../components/MoviesGrid";
-import Loader from "../components/Loader";
+import "../../styles/Favorites.css";
+import { useMovieContext } from "../../contexts/useMovieContext";
+import MoviesGrid from "../../components/movies/MoviesGrid";
+import Loader from "../../components/Loader";
 function Favorites() {
   const { favorites, favoritesLoading } = useMovieContext();
 

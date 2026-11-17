@@ -1,4 +1,4 @@
-import "../css/SearchBar.css";
+import "../../styles/SearchBar.css";
 import { FaSearch, FaTimes } from "react-icons/fa";
 
 function SearchBar({

@@ -1,5 +1,5 @@
 import MovieCard from "./MovieCard";
-import "../css/MoviesGrid.css";
+import "../../styles/MoviesGrid.css";
 function MoviesGrid({ movies }) {
   if (!movies || movies.length === 0) {
     return (

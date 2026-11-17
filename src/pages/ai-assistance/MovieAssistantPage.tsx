@@ -1,57 +1,53 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { toast } from "react-toastify";
 import MovieAssistantChatWorkspace from "../../components/ai-assistance/MovieAssistantChatWorkspace";
 import MovieAssistantIntroBanner from "../../components/ai-assistance/MovieAssistantIntroBanner";
 import MovieAssistantQuickPromptsSidebar from "../../components/ai-assistance/MovieAssistantQuickPromptsSidebar";
 import MovieAssistantSavedAnswersPanel from "../../components/ai-assistance/MovieAssistantSavedAnswersPanel";
 import MovieAssistantWorkspaceTabs from "../../components/ai-assistance/MovieAssistantWorkspaceTabs";
-import { useAuth } from "../../context/useAuth";
-import { useMovieContext } from "../../context/useMovieContext";
-import "../../css/AIAssistance.css";
+import { useAuth } from "../../contexts/useAuth";
+import { useMovieContext } from "../../contexts/useMovieContext";
+import "../../styles/AIAssistance.css";
 import {
   resolveRecommendationToTmdbMovie,
   TmdbMatchError,
 } from "../../services/tmdbMatch";
-import { MAX_PROMPT_LENGTH } from "./constants";
+import { MAX_PROMPT_LENGTH } from "../../config/constants";
 import {
   buildMockRecommendation,
   createInitialMessages,
   STARTER_PROMPTS,
-} from "./mockRecommendation";
+} from "./lib/mockRecommendation";
 import type { AssistantMessage } from "../../types";
-import { useSavedRecommendations } from "./useSavedRecommendations";
+import { useSavedRecommendations } from "../../hooks/useSavedRecommendations";
+import { useMovieAssistantState } from "../../hooks/useMovieAssistantState";
 
 function MovieAssistantPage() {
   const { isAuthenticated } = useAuth();
-  const { addToFavorites, isFavorite, favorites } = useMovieContext();
-  const [messages, setMessages] = useState<AssistantMessage[]>(createInitialMessages);
-  const [prompt, setPrompt] = useState("");
-  const [isThinking, setIsThinking] = useState(false);
+  const { addToFavorites, isFavorite } = useMovieContext();
+  const {
+    messages,
+    setMessages,
+    prompt,
+    setPrompt,
+    isThinking,
+    setIsThinking,
+    activeTab,
+    setActiveTab,
+    savingFavoriteId,
+    setSavingFavoriteId,
+    tmdbIdByMockKey,
+    setTmdbIdByMockKey,
+    messagesEndRef,
+    isRecommendationFavorite,
+  } = useMovieAssistantState();
   const { savedRecommendations, setSavedRecommendations, savedSearch, setSavedSearch, filteredSavedRecommendations } = useSavedRecommendations();
-  const [activeTab, setActiveTab] = useState("chat");
-  const [savingFavoriteId, setSavingFavoriteId] = useState(null);
-  const [tmdbIdByMockKey, setTmdbIdByMockKey] = useState<Record<number, number>>({});
-  const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages, isThinking]);
 
   const savedIds = useMemo(
     () => new Set(savedRecommendations.map((item) => item.id)),
     [savedRecommendations],
   );
 
-  const isRecommendationFavorite = useCallback(
-    (movie) => {
-      const mapped = tmdbIdByMockKey[movie.id];
-      if (mapped != null) return isFavorite(mapped);
-      return favorites.some(
-        (f) => f.title?.toLowerCase() === movie.title?.toLowerCase(),
-      );
-    },
-    [favorites, isFavorite, tmdbIdByMockKey],
-  );
 
   function saveAssistantMessage(message) {
     if (!message.recommendations?.length) return;

@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Favorites from "./pages/Favorites";
-import NavBar from "./components/NavBar";
-import "./css/App.css";
-import Login from "./pages/Login";
-import DefaultPage from "./pages/DefaultPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import AIAssistance from "./pages/AIAssistance";
+import Home from "../pages/movies/Home";
+import Favorites from "../pages/movies/Favorites";
+import NavBar from "../components/NavBar";
+import "../styles/App.css";
+import Login from "../pages/auth/Login";
+import DefaultPage from "../pages/landing/DefaultPage";
+import ProtectedRoute from "../components/ProtectedRoute";
+import AIAssistance from "../pages/ai-assistance/AIAssistance";
 function App() {
   return (
     <>

@@ -1,4 +1,4 @@
-import { SAVED_RECOMMENDATIONS_KEY } from "./constants";
+import { SAVED_RECOMMENDATIONS_KEY } from "../../../config/constants";
 
 export function safelyReadSavedRecommendations() {
   try {
