@@ -137,7 +137,7 @@ function UserProfileModal({ open, onClose }) {
 
     const reader = new FileReader();
     reader.onload = () => {
-      setAvatar(reader.result);
+      setAvatar(typeof reader.result === "string" ? reader.result : "");
       setError("");
     };
     reader.readAsDataURL(file);

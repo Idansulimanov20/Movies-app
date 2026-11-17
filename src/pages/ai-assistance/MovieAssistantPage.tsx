@@ -12,32 +12,26 @@ import {
   resolveRecommendationToTmdbMovie,
   TmdbMatchError,
 } from "../../services/tmdbMatch";
-import { MAX_PROMPT_LENGTH, SAVED_RECOMMENDATIONS_KEY } from "./constants";
+import { MAX_PROMPT_LENGTH } from "./constants";
 import {
   buildMockRecommendation,
   createInitialMessages,
   STARTER_PROMPTS,
 } from "./mockRecommendation";
-import { safelyReadSavedRecommendations } from "./savedRecommendationsStorage";
+import type { AssistantMessage } from "../../types";
+import { useSavedRecommendations } from "./useSavedRecommendations";
 
 function MovieAssistantPage() {
   const { isAuthenticated } = useAuth();
   const { addToFavorites, isFavorite, favorites } = useMovieContext();
-  const [messages, setMessages] = useState(createInitialMessages);
+  const [messages, setMessages] = useState<AssistantMessage[]>(createInitialMessages);
   const [prompt, setPrompt] = useState("");
   const [isThinking, setIsThinking] = useState(false);
-  const [savedRecommendations, setSavedRecommendations] = useState(() =>
-    safelyReadSavedRecommendations(),
-  );
-  const [savedSearch, setSavedSearch] = useState("");
+  const { savedRecommendations, setSavedRecommendations, savedSearch, setSavedSearch, filteredSavedRecommendations } = useSavedRecommendations();
   const [activeTab, setActiveTab] = useState("chat");
   const [savingFavoriteId, setSavingFavoriteId] = useState(null);
-  const [tmdbIdByMockKey, setTmdbIdByMockKey] = useState({});
+  const [tmdbIdByMockKey, setTmdbIdByMockKey] = useState<Record<number, number>>({});
   const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    localStorage.setItem(SAVED_RECOMMENDATIONS_KEY, JSON.stringify(savedRecommendations));
-  }, [savedRecommendations]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -47,23 +41,6 @@ function MovieAssistantPage() {
     () => new Set(savedRecommendations.map((item) => item.id)),
     [savedRecommendations],
   );
-
-  const filteredSavedRecommendations = useMemo(() => {
-    const query = savedSearch.trim().toLowerCase();
-    if (!query) return savedRecommendations;
-
-    return savedRecommendations.filter((item) => {
-      const recommendationText = item.recommendations
-        .map((movie) => `${movie.title} ${movie.release_date} ${movie.reason}`)
-        .join(" ")
-        .toLowerCase();
-      return (
-        item.prompt.toLowerCase().includes(query) ||
-        item.content.toLowerCase().includes(query) ||
-        recommendationText.includes(query)
-      );
-    });
-  }, [savedRecommendations, savedSearch]);
 
   const isRecommendationFavorite = useCallback(
     (movie) => {
@@ -183,7 +160,7 @@ function MovieAssistantPage() {
 
     if (isThinking) return;
 
-    const userMessage = {
+  const userMessage: AssistantMessage = {
       id: crypto.randomUUID(),
       role: "user",
       content: trimmedPrompt,

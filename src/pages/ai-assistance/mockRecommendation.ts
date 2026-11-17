@@ -144,7 +144,9 @@ export const STARTER_PROMPTS = [
   "A romantic 90s movie",
 ];
 
-export function createInitialMessages() {
+import type { AssistantMessage, Movie } from "../../types";
+
+export function createInitialMessages(): AssistantMessage[] {
   return [
     {
       id: "welcome",
@@ -162,7 +164,7 @@ export function createInitialMessages() {
   ];
 }
 
-export function buildMockRecommendation(prompt) {
+export function buildMockRecommendation(prompt: string): { content: string; recommendations: Movie[] } {
   const normalizedPrompt = prompt.toLowerCase();
   const words = normalizedPrompt
     .split(/[^a-z0-9]+/)

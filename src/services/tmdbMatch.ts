@@ -1,7 +1,9 @@
 import { searchMovies } from "./api";
 
 export class TmdbMatchError extends Error {
-  constructor(code, message) {
+  code: string;
+
+  constructor(code: string, message: string) {
     super(message);
     this.code = code;
   }

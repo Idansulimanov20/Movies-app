@@ -3,11 +3,11 @@ import { Link, NavLink } from "react-router-dom";
 import { FaCompass, FaHeart, FaHome, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { HiSparkles } from "react-icons/hi2";
 import "../css/NavBar.css";
-import logo from "../assets/icon.png";
 import { useAuth } from "../context/useAuth";
 import UserProfileModal from "./UserProfileModal";
 
 function NavBar() {
+  const logoUrl = `${import.meta.env.BASE_URL}icon.png`;
   const { isAuthenticated, logout, user } = useAuth();
   const [profileOpen, setProfileOpen] = useState(false);
   const initials = (user?.name || user?.username || "U").slice(0, 1).toUpperCase();
@@ -16,7 +16,7 @@ function NavBar() {
     <>
       <nav className="navbar">
         <Link to="/home" className="navbar-brand" aria-label="Watch and Chill home">
-          <img src={logo} alt="logo" className="navbar-logo" />
+          <img src={logoUrl} alt="logo" className="navbar-logo" />
           <span className="navbar-copy">
             <span className="navbar-title">Watch & Chill</span>
             <span className="navbar-tagline">Stream your next favorite</span>
@@ -25,12 +25,12 @@ function NavBar() {
 
         <div className="navbar-links" aria-label="Primary navigation">
           <NavLink to="/" className="nav-link">
-            <FaCompass aria-hidden="true" />
-            <span>Discover</span>
-          </NavLink>
-          <NavLink to="/home" className="nav-link">
             <FaHome aria-hidden="true" />
             <span>Home</span>
+          </NavLink>
+          <NavLink to="/home" className="nav-link">
+            <FaCompass aria-hidden="true" />
+            <span>Discover</span>
           </NavLink>
           <NavLink to="/ai-assistance" className="nav-link">
             <HiSparkles aria-hidden="true" />

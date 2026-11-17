@@ -1,6 +1,6 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
 
-export async function apiRequest(path, options = {}) {
+export async function apiRequest(path: string, options: RequestInit = {}): Promise<any> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
     credentials: "include",

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AuthContext } from "./AuthContext";
+import type { ProviderProps, User } from "../types";
 import {
   getCurrentUser,
   recoverPassword,
@@ -11,8 +12,8 @@ import {
   updateProfile,
 } from "../services/auth";
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+export function AuthProvider({ children }: ProviderProps) {
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

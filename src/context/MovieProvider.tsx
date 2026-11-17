@@ -3,13 +3,14 @@ import { toast } from "react-toastify";
 import { MovieContext } from "./MovieContext";
 import { useAuth } from "./useAuth";
 import { addFavorite, getFavorites, removeFavorite } from "../services/api";
+import type { Movie, ProviderProps } from "../types";
 
 const GENERIC_FAVORITES_ERROR =
   "We could not update your favorites right now. Please try again in a moment.";
 
-export function MovieProvider({ children }) {
+export function MovieProvider({ children }: ProviderProps) {
   const { isAuthenticated, loading: authLoading } = useAuth();
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState<Movie[]>([]);
   const [favoritesLoading, setFavoritesLoading] = useState(false);
 
   useEffect(() => {
