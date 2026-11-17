@@ -8,10 +8,11 @@ function ControlsBar({
   handleSearch,
   handleClearSearch,
   loading,
-  filterText,
-  setFilterText,
-  yearFilter,
-  setYearFilter,
+  filters,
+  genres,
+  hasActiveFilters,
+  applyFilters,
+  clearFilters,
 }) {
   return (
     <div className="controls-bar">
@@ -23,10 +24,12 @@ function ControlsBar({
         loading={loading}
       />
       <FilterBar
-        filterText={filterText}
-        setFilterText={setFilterText}
-        yearFilter={yearFilter}
-        setYearFilter={setYearFilter}
+        filters={filters}
+        genres={genres}
+        hasActiveFilters={hasActiveFilters}
+        applyFilters={applyFilters}
+        clearFilters={clearFilters}
+        loading={loading}
       />
     </div>
   );

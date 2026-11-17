@@ -8,13 +8,14 @@ function Home() {
   const {
     searchQuery,
     setSearchQuery,
-    filterText,
-    setFilterText,
-    yearFilter,
-    setYearFilter,
+    filters,
+    genres,
+    hasActiveFilters,
     loading,
     handleSearch,
     handleClearSearch,
+    applyFilters,
+    clearFilters,
     filteredMovies,
   } = useHomePage();
 
@@ -26,13 +27,16 @@ function Home() {
         handleSearch={handleSearch}
         handleClearSearch={handleClearSearch}
         loading={loading}
-        filterText={filterText}
-        setFilterText={setFilterText}
-        yearFilter={yearFilter}
-        setYearFilter={setYearFilter}
+        filters={filters}
+        genres={genres}
+        hasActiveFilters={hasActiveFilters}
+        applyFilters={applyFilters}
+        clearFilters={clearFilters}
       />
 
-      {loading ? <Loader /> : <MoviesGrid movies={filteredMovies} />}
+      {loading ? <Loader /> : <>
+        <MoviesGrid movies={filteredMovies} />
+      </>}
     </div>
   );
 }

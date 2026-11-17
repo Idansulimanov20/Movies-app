@@ -481,7 +481,7 @@ async function fetchTmdb(pathname, searchParams) {
 async function handleMovies(req, res, pathname, searchParams) {
   if (req.method === "GET" && pathname === "/api/movies/popular") {
     const data = await fetchTmdb("/movie/popular", searchParams);
-    return sendJson(res, 200, { results: data.results || [] });
+    return sendJson(res, 200, { results: data.results || [], page: data.page || 1, totalPages: data.total_pages || 1 });
   }
 
   if (req.method === "GET" && pathname === "/api/movies/search") {
@@ -489,7 +489,36 @@ async function handleMovies(req, res, pathname, searchParams) {
     if (!query) return sendError(res, 400, "Search query is required.");
 
     const data = await fetchTmdb("/search/movie", searchParams);
-    return sendJson(res, 200, { results: data.results || [] });
+    return sendJson(res, 200, { results: data.results || [], page: data.page || 1, totalPages: data.total_pages || 1 });
+  }
+
+  if (req.method === "GET" && pathname === "/api/movies/genres") {
+    const data = await fetchTmdb("/genre/movie/list", new URLSearchParams());
+    return sendJson(res, 200, { genres: data.genres || [] });
+  }
+
+  if (req.method === "GET" && pathname === "/api/movies/discover") {
+    const allowedSorts = new Set(["popularity.desc", "vote_average.desc", "primary_release_date.desc", "primary_release_date.asc"]);
+    const discoverParams = new URLSearchParams({ include_adult: "false", include_video: "false", language: "en-US", sort_by: "popularity.desc" });
+    const genres = searchParams.get("with_genres");
+    const yearFrom = searchParams.get("primary_release_date.gte");
+    const yearTo = searchParams.get("primary_release_date.lte");
+    const rating = Number(searchParams.get("vote_average.gte"));
+    const sortBy = searchParams.get("sort_by");
+    const page = Number(searchParams.get("page"));
+
+    if (genres && /^\d+(\|\d+)*$/.test(genres)) discoverParams.set("with_genres", genres);
+    if (yearFrom && /^\d{4}-\d{2}-\d{2}$/.test(yearFrom)) discoverParams.set("primary_release_date.gte", yearFrom);
+    if (yearTo && /^\d{4}-\d{2}-\d{2}$/.test(yearTo)) discoverParams.set("primary_release_date.lte", yearTo);
+    if (Number.isFinite(rating) && rating >= 0 && rating <= 10) discoverParams.set("vote_average.gte", String(rating));
+    if (sortBy && allowedSorts.has(sortBy)) {
+      discoverParams.set("sort_by", sortBy);
+      if (sortBy === "vote_average.desc") discoverParams.set("vote_count.gte", "100");
+    }
+    if (Number.isInteger(page) && page >= 1 && page <= 500) discoverParams.set("page", String(page));
+
+    const data = await fetchTmdb("/discover/movie", discoverParams);
+    return sendJson(res, 200, { results: data.results || [], page: data.page || 1, totalPages: data.total_pages || 1 });
   }
 
   return false;

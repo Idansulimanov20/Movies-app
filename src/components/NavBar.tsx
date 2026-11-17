@@ -28,7 +28,7 @@ function NavBar() {
             <FaHome aria-hidden="true" />
             <span>Home</span>
           </NavLink>
-          <NavLink to="/home" className="nav-link">
+          <NavLink to="/discover" className="nav-link">
             <FaCompass aria-hidden="true" />
             <span>Discover</span>
           </NavLink>

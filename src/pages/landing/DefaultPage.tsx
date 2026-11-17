@@ -6,7 +6,7 @@ import "../../styles/DefaultPage.css";
 import { usePopularMovies } from "../../hooks/usePopularMovies";
 
 const discoveryCards = [
-  { title: "Explore movies", copy: "Search popular titles and find a new favorite.", to: "/home", icon: FaSearch },
+  { title: "Explore movies", copy: "Search popular titles and find a new favorite.", to: "/discover", icon: FaSearch },
   { title: "Ask the assistant", copy: "Get picks for a mood, moment, or movie night.", to: "/ai-assistance", icon: HiSparkles },
   { title: "Build your list", copy: "Keep every great suggestion ready for later.", to: "/favorites", icon: FaHeart },
 ];
@@ -27,7 +27,7 @@ function DefaultPage() {
             Personal picks, fresh discoveries, and a watchlist built around your actual taste.
           </p>
           <div className="welcome-actions">
-            <NavLink to="/home" className="get-started-btn">
+            <NavLink to="/discover" className="get-started-btn">
               <FaPlay aria-hidden="true" />
               Start discovering
             </NavLink>
@@ -36,7 +36,7 @@ function DefaultPage() {
             </NavLink>
           </div>
           <div className="mood-row" aria-label="Explore by mood">
-            <span>Pick a mood</span>{moodLinks.map((mood) => <NavLink key={mood} to="/home">{mood}</NavLink>)}
+            <span>Pick a mood</span>{moodLinks.map((mood) => <NavLink key={mood} to="/discover">{mood}</NavLink>)}
           </div>
         </div>
         <div className="cinematic-poster" aria-label="Popular movies right now">
@@ -62,11 +62,11 @@ function DefaultPage() {
             <p className="welcome-kicker">Popular tonight</p>
             <h2 id="popular-title">The movies everyone is talking about.</h2>
           </div>
-          <NavLink to="/home" className="section-link">See all movies <FaArrowRight aria-hidden="true" /></NavLink>
+          <NavLink to="/discover" className="section-link">See all movies <FaArrowRight aria-hidden="true" /></NavLink>
         </div>
         <div className="popular-movies-grid">
           {popularMovies.slice(0, 6).map((movie, index) => (
-            <NavLink key={movie.id} to="/home" className="popular-movie-card" aria-label={`Discover ${movie.title}`}>
+            <NavLink key={movie.id} to="/discover" className="popular-movie-card" aria-label={`Discover ${movie.title}`}>
               <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} loading={index < 3 ? "eager" : "lazy"} />
               <span className="popular-movie-gradient" aria-hidden="true" />
               <span className="popular-movie-rank">{String(index + 1).padStart(2, "0")}</span>
